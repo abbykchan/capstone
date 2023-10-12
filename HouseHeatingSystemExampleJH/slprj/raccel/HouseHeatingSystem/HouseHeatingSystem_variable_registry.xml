@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MF0 version="1.1" packageUris="http://schema.mathworks.com/mf0/slsa_mm_parameter_tuning/R2021b">
+  <slsa.mm.parametertuning.VariableRegistry type="slsa.mm.parametertuning.VariableRegistry" uuid="ca898618-937b-44f4-a680-1bb0cdd1cd1f">
+    <defaultValueCachePath>/Users/jaydenhs/Documents/University/4A/SYDE 461/HVAC_Sim/HouseHeatingSystemExampleJH/slprj/raccel/HouseHeatingSystem/HouseHeatingSystem_default_variable_values.mat</defaultValueCachePath>
+    <expressions type="slsa.mm.parametertuning.Expression" uuid="034589bc-184b-455b-b276-9fa63bcb98a6">
+      <expression>1880</expression>
+      <users type="slsa.mm.parametertuning.VariableDefinition" uuid="3788703a-67f9-4c85-999f-8db9f5648ccc"/>
+    </expressions>
+    <expressions type="slsa.mm.parametertuning.Expression" uuid="02475569-9df7-47c8-8484-7e76d7041b73">
+      <expression>1005</expression>
+      <users type="slsa.mm.parametertuning.VariableDefinition" uuid="06109628-7cde-4412-b54d-20a71e47fe5a"/>
+    </expressions>
+    <expressions type="slsa.mm.parametertuning.Expression" uuid="6f595e80-090e-4f84-a51a-3e9358ac0f96">
+      <expression>1820</expression>
+      <users type="slsa.mm.parametertuning.VariableDefinition" uuid="b643f350-b9d6-462b-807c-5e91bdce4504"/>
+    </expressions>
+    <expressions type="slsa.mm.parametertuning.Expression" uuid="4e03e1ac-a162-44a3-ab13-b25ff87e25c2">
+      <expression>41e6</expression>
+      <users type="slsa.mm.parametertuning.VariableDefinition" uuid="4d8748d9-c9f6-45b7-85a5-1720c0c323d1"/>
+    </expressions>
+    <expressions type="slsa.mm.parametertuning.Expression" uuid="91e319ae-49f4-4321-bee7-0440a0c4d8c1">
+      <expression>1e-5</expression>
+      <users type="slsa.mm.parametertuning.VariableDefinition" uuid="c254fbcc-53dc-432c-a851-676da77b1885"/>
+    </expressions>
+    <expressions type="slsa.mm.parametertuning.Expression" uuid="c349f71c-aeb9-4086-bbbb-1683c35e857e">
+      <expression>3.95</expression>
+      <users type="slsa.mm.parametertuning.VariableDefinition" uuid="29939c1a-51c5-45d8-ac0b-f1b5f0d49e32"/>
+    </expressions>
+    <expressions type="slsa.mm.parametertuning.Expression" uuid="ff1bc7d9-7105-4938-bf53-626bad9d72b3">
+      <expression>0.1</expression>
+      <users type="slsa.mm.parametertuning.VariableDefinition" uuid="0c0f079c-dd79-4167-96cf-c603a552fe1f"/>
+    </expressions>
+    <name>HouseHeatingSystem</name>
+    <variableDefinitions type="slsa.mm.parametertuning.VariableDefinition" uuid="c254fbcc-53dc-432c-a851-676da77b1885">
+      <variable type="slsa.mm.parametertuning.Variable" uuid="a565da3a-2911-43dd-b75e-05bb2709507d"/>
+      <expression type="slsa.mm.parametertuning.Expression" uuid="91e319ae-49f4-4321-bee7-0440a0c4d8c1"/>
+      <isTunable>false</isTunable>
+    </variableDefinitions>
+    <variableDefinitions type="slsa.mm.parametertuning.VariableDefinition" uuid="b643f350-b9d6-462b-807c-5e91bdce4504">
+      <variable type="slsa.mm.parametertuning.Variable" uuid="0002f44a-ae79-47ed-a952-6aa90f381dd0"/>
+      <expression type="slsa.mm.parametertuning.Expression" uuid="6f595e80-090e-4f84-a51a-3e9358ac0f96"/>
+      <isTunable>false</isTunable>
+    </variableDefinitions>
+    <variableDefinitions type="slsa.mm.parametertuning.VariableDefinition" uuid="4d8748d9-c9f6-45b7-85a5-1720c0c323d1">
+      <variable type="slsa.mm.parametertuning.Variable" uuid="98d97f2f-e542-4848-b003-a08ecd55ffcc"/>
+      <expression type="slsa.mm.parametertuning.Expression" uuid="4e03e1ac-a162-44a3-ab13-b25ff87e25c2"/>
+      <isTunable>false</isTunable>
+    </variableDefinitions>
+    <variableDefinitions type="slsa.mm.parametertuning.VariableDefinition" uuid="06109628-7cde-4412-b54d-20a71e47fe5a">
+      <variable type="slsa.mm.parametertuning.Variable" uuid="afd245fb-1a34-4880-83f5-e11c70f1ce1a"/>
+      <expression type="slsa.mm.parametertuning.Expression" uuid="02475569-9df7-47c8-8484-7e76d7041b73"/>
+      <isTunable>false</isTunable>
+    </variableDefinitions>
+    <variableDefinitions type="slsa.mm.parametertuning.VariableDefinition" uuid="3788703a-67f9-4c85-999f-8db9f5648ccc">
+      <variable type="slsa.mm.parametertuning.Variable" uuid="4c3dc064-18ac-4294-b4b8-4fdb3f554bd2"/>
+      <expression type="slsa.mm.parametertuning.Expression" uuid="034589bc-184b-455b-b276-9fa63bcb98a6"/>
+      <isTunable>false</isTunable>
+    </variableDefinitions>
+    <variableDefinitions type="slsa.mm.parametertuning.VariableDefinition" uuid="29939c1a-51c5-45d8-ac0b-f1b5f0d49e32">
+      <variable type="slsa.mm.parametertuning.Variable" uuid="233d636d-5493-4777-8417-22bf95d2e4bb"/>
+      <expression type="slsa.mm.parametertuning.Expression" uuid="c349f71c-aeb9-4086-bbbb-1683c35e857e"/>
+      <isTunable>false</isTunable>
+    </variableDefinitions>
+    <variableDefinitions type="slsa.mm.parametertuning.VariableDefinition" uuid="0c0f079c-dd79-4167-96cf-c603a552fe1f">
+      <variable type="slsa.mm.parametertuning.Variable" uuid="c54d6e24-ecdb-42fe-ab13-5c778d34d8b9"/>
+      <expression type="slsa.mm.parametertuning.Expression" uuid="ff1bc7d9-7105-4938-bf53-626bad9d72b3"/>
+      <isTunable>false</isTunable>
+    </variableDefinitions>
+    <variables type="slsa.mm.parametertuning.Variable" uuid="0002f44a-ae79-47ed-a952-6aa90f381dd0">
+      <definition type="slsa.mm.parametertuning.VariableDefinition" uuid="b643f350-b9d6-462b-807c-5e91bdce4504"/>
+      <name>cp_vapor</name>
+      <workspace type="slsa.mm.parametertuning.Workspace" uuid="e4756eff-a01e-4379-818d-fa310eb51d52"/>
+    </variables>
+    <variables type="slsa.mm.parametertuning.Variable" uuid="afd245fb-1a34-4880-83f5-e11c70f1ce1a">
+      <definition type="slsa.mm.parametertuning.VariableDefinition" uuid="06109628-7cde-4412-b54d-20a71e47fe5a"/>
+      <name>cp_air</name>
+      <workspace type="slsa.mm.parametertuning.Workspace" uuid="e4756eff-a01e-4379-818d-fa310eb51d52"/>
+    </variables>
+    <variables type="slsa.mm.parametertuning.Variable" uuid="4c3dc064-18ac-4294-b4b8-4fdb3f554bd2">
+      <definition type="slsa.mm.parametertuning.VariableDefinition" uuid="3788703a-67f9-4c85-999f-8db9f5648ccc"/>
+      <name>cp_fuel</name>
+      <workspace type="slsa.mm.parametertuning.Workspace" uuid="e4756eff-a01e-4379-818d-fa310eb51d52"/>
+    </variables>
+    <variables type="slsa.mm.parametertuning.Variable" uuid="29af436a-02d0-45d6-a180-fc267f260988">
+      <name>NG_density</name>
+      <workspace type="slsa.mm.parametertuning.Workspace" uuid="c86864c9-29d2-4c64-9bf9-5b64d21ca4c3"/>
+    </variables>
+    <variables type="slsa.mm.parametertuning.Variable" uuid="233d636d-5493-4777-8417-22bf95d2e4bb">
+      <definition type="slsa.mm.parametertuning.VariableDefinition" uuid="29939c1a-51c5-45d8-ac0b-f1b5f0d49e32"/>
+      <name>n</name>
+      <workspace type="slsa.mm.parametertuning.Workspace" uuid="e4756eff-a01e-4379-818d-fa310eb51d52"/>
+    </variables>
+    <variables type="slsa.mm.parametertuning.Variable" uuid="a565da3a-2911-43dd-b75e-05bb2709507d">
+      <definition type="slsa.mm.parametertuning.VariableDefinition" uuid="c254fbcc-53dc-432c-a851-676da77b1885"/>
+      <name>mdot_fuel_min</name>
+      <workspace type="slsa.mm.parametertuning.Workspace" uuid="e4756eff-a01e-4379-818d-fa310eb51d52"/>
+    </variables>
+    <variables type="slsa.mm.parametertuning.Variable" uuid="c54d6e24-ecdb-42fe-ab13-5c778d34d8b9">
+      <definition type="slsa.mm.parametertuning.VariableDefinition" uuid="0c0f079c-dd79-4167-96cf-c603a552fe1f"/>
+      <name>excess_air</name>
+      <workspace type="slsa.mm.parametertuning.Workspace" uuid="e4756eff-a01e-4379-818d-fa310eb51d52"/>
+    </variables>
+    <variables type="slsa.mm.parametertuning.Variable" uuid="98d97f2f-e542-4848-b003-a08ecd55ffcc">
+      <definition type="slsa.mm.parametertuning.VariableDefinition" uuid="4d8748d9-c9f6-45b7-85a5-1720c0c323d1"/>
+      <name>LHV</name>
+      <workspace type="slsa.mm.parametertuning.Workspace" uuid="e4756eff-a01e-4379-818d-fa310eb51d52"/>
+    </variables>
+    <variables type="slsa.mm.parametertuning.Variable" uuid="27339b59-a6be-4017-a7f9-60b8334524a0">
+      <name>cost</name>
+      <workspace type="slsa.mm.parametertuning.Workspace" uuid="c86864c9-29d2-4c64-9bf9-5b64d21ca4c3"/>
+    </variables>
+    <workspaces type="slsa.mm.parametertuning.Workspace" uuid="e4756eff-a01e-4379-818d-fa310eb51d52">
+      <name>HouseHeatingSystem:1137</name>
+      <type>MASK</type>
+      <variables type="slsa.mm.parametertuning.Variable" uuid="0002f44a-ae79-47ed-a952-6aa90f381dd0"/>
+      <variables type="slsa.mm.parametertuning.Variable" uuid="afd245fb-1a34-4880-83f5-e11c70f1ce1a"/>
+      <variables type="slsa.mm.parametertuning.Variable" uuid="4c3dc064-18ac-4294-b4b8-4fdb3f554bd2"/>
+      <variables type="slsa.mm.parametertuning.Variable" uuid="98d97f2f-e542-4848-b003-a08ecd55ffcc"/>
+      <variables type="slsa.mm.parametertuning.Variable" uuid="233d636d-5493-4777-8417-22bf95d2e4bb"/>
+      <variables type="slsa.mm.parametertuning.Variable" uuid="a565da3a-2911-43dd-b75e-05bb2709507d"/>
+      <variables type="slsa.mm.parametertuning.Variable" uuid="c54d6e24-ecdb-42fe-ab13-5c778d34d8b9"/>
+    </workspaces>
+    <workspaces type="slsa.mm.parametertuning.Workspace" uuid="c86864c9-29d2-4c64-9bf9-5b64d21ca4c3">
+      <name>global-workspace</name>
+      <variables type="slsa.mm.parametertuning.Variable" uuid="27339b59-a6be-4017-a7f9-60b8334524a0"/>
+      <variables type="slsa.mm.parametertuning.Variable" uuid="29af436a-02d0-45d6-a180-fc267f260988"/>
+    </workspaces>
+  </slsa.mm.parametertuning.VariableRegistry>
+</MF0>

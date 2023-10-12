@@ -1,0 +1,1511 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MF0 version="1.1" packageUris="http://schema.mathworks.com/mf0/ci/19700101 http://schema.mathworks.com/mf0/sl_data_duplicateandconsistencycheck/R2022b http://schema.mathworks.com/mf0/sl_modelref_info/R2023b http://schema.mathworks.com/mf0/slexec_mm_sto/R2023a_202208151321 http://schema.mathworks.com/mf0/sltp_mm/R2023a_202209151115">
+  <ModelRefInfoRepo.ModelRefInfoRoot type="ModelRefInfoRepo.ModelRefInfoRoot" uuid="389345aa-28cf-4695-90a0-31a3d2d3deda">
+    <childModelRefInfo type="ModelRefInfoRepo.ChildModelRefInfo" uuid="5b18c5f6-0dc2-40ee-bc71-8048cfe9741c">
+      <modelName>HouseHeatingSystem</modelName>
+      <modelPath>HouseHeatingSystem</modelPath>
+    </childModelRefInfo>
+    <compiledTFinal>259200.0</compiledTFinal>
+    <dataSourceInfo type="ModelRefInfoRepo.DataSourceInfo" uuid="a400d31a-fb2a-412a-a0c4-08cb52b5ace7">
+      <dataSources type="ModelRefInfoRepo.SourceInfo" uuid="025346a5-d338-453b-891e-34c8d62744d9">
+        <includeAllSections>true</includeAllSections>
+        <sourceName>base workspace</sourceName>
+        <type>BaseWorkspace</type>
+      </dataSources>
+      <modelName>HouseHeatingSystem</modelName>
+    </dataSourceInfo>
+    <dataTransferInfos>AAFJTQAAAAAOAAAAOAAAAAYAAAAIAAAAAgAAAAAAAAAFAAAACAAAAAAAAAABAAAAAQAAAAAAAAAFAAQAAQAAAAEAAAAAAAAA</dataTransferInfos>
+    <defaultsCMapping>{&quot;Inports&quot;:&quot;{\&quot;Name\&quot;:\&quot;Default\&quot;,\&quot;Checksum\&quot;:\&quot;Default\&quot;,\&quot;PerInstancePropertiesChecksum\&quot;:\&quot;\&quot;,\&quot;MemorySectionName\&quot;:\&quot;\&quot;,\&quot;MemorySectionChecksum\&quot;:\&quot;\&quot;}&quot;,&quot;Outports&quot;:&quot;{\&quot;Name\&quot;:\&quot;Default\&quot;,\&quot;Checksum\&quot;:\&quot;Default\&quot;,\&quot;PerInstancePropertiesChecksum\&quot;:\&quot;\&quot;,\&quot;MemorySectionName\&quot;:\&quot;\&quot;,\&quot;MemorySectionChecksum\&quot;:\&quot;\&quot;}&quot;,&quot;ParameterArguments&quot;:&quot;{\&quot;Name\&quot;:\&quot;Default\&quot;,\&quot;Checksum\&quot;:\&quot;Default\&quot;,\&quot;PerInstancePropertiesChecksum\&quot;:\&quot;\&quot;,\&quot;MemorySectionName\&quot;:\&quot;None\&quot;,\&quot;MemorySectionChecksum\&quot;:\&quot;None\&quot;}&quot;,&quot;LocalParameters&quot;:&quot;{\&quot;Name\&quot;:\&quot;Default\&quot;,\&quot;Checksum\&quot;:\&quot;Default\&quot;,\&quot;PerInstancePropertiesChecksum\&quot;:\&quot;\&quot;,\&quot;MemorySectionName\&quot;:\&quot;\&quot;,\&quot;MemorySectionChecksum\&quot;:\&quot;\&quot;}&quot;,&quot;GlobalParameters&quot;:&quot;{\&quot;Name\&quot;:\&quot;Default\&quot;,\&quot;Checksum\&quot;:\&quot;Default\&quot;,\&quot;PerInstancePropertiesChecksum\&quot;:\&quot;\&quot;,\&quot;MemorySectionName\&quot;:\&quot;\&quot;,\&quot;MemorySectionChecksum\&quot;:\&quot;\&quot;}&quot;,&quot;InternalData&quot;:&quot;{\&quot;Name\&quot;:\&quot;Default\&quot;,\&quot;Checksum\&quot;:\&quot;Default\&quot;,\&quot;PerInstancePropertiesChecksum\&quot;:\&quot;\&quot;,\&quot;MemorySectionName\&quot;:\&quot;\&quot;,\&quot;MemorySectionChecksum\&quot;:\&quot;\&quot;}&quot;,&quot;SharedLocalDataStores&quot;:&quot;{\&quot;Name\&quot;:\&quot;Default\&quot;,\&quot;Checksum\&quot;:\&quot;Default\&quot;,\&quot;PerInstancePropertiesChecksum\&quot;:\&quot;\&quot;,\&quot;MemorySectionName\&quot;:\&quot;None\&quot;,\&quot;MemorySectionChecksum\&quot;:\&quot;None\&quot;}&quot;,&quot;GlobalDataStores&quot;:&quot;{\&quot;Name\&quot;:\&quot;Default\&quot;,\&quot;Checksum\&quot;:\&quot;Default\&quot;,\&quot;PerInstancePropertiesChecksum\&quot;:\&quot;\&quot;,\&quot;MemorySectionName\&quot;:\&quot;None\&quot;,\&quot;MemorySectionChecksum\&quot;:\&quot;None\&quot;}&quot;,&quot;Constants&quot;:&quot;{\&quot;Name\&quot;:\&quot;Default\&quot;,\&quot;Checksum\&quot;:\&quot;Default\&quot;,\&quot;PerInstancePropertiesChecksum\&quot;:\&quot;\&quot;,\&quot;MemorySectionName\&quot;:\&quot;\&quot;,\&quot;MemorySectionChecksum\&quot;:\&quot;\&quot;}&quot;,&quot;DataTransfers&quot;:&quot;{\&quot;Name\&quot;:\&quot;Default\&quot;,\&quot;Checksum\&quot;:\&quot;Default\&quot;,\&quot;PerInstancePropertiesChecksum\&quot;:\&quot;\&quot;,\&quot;MemorySectionName\&quot;:\&quot;None\&quot;,\&quot;MemorySectionChecksum\&quot;:\&quot;None\&quot;}&quot;,&quot;ModelData&quot;:&quot;{\&quot;Name\&quot;:\&quot;Default\&quot;,\&quot;Checksum\&quot;:\&quot;Default\&quot;,\&quot;PerInstancePropertiesChecksum\&quot;:\&quot;\&quot;,\&quot;MemorySectionName\&quot;:\&quot;None\&quot;,\&quot;MemorySectionChecksum\&quot;:\&quot;None\&quot;}&quot;,&quot;InitializeTerminate&quot;:&quot;{\&quot;Name\&quot;:\&quot;Default\&quot;,\&quot;Checksum\&quot;:\&quot;Default\&quot;,\&quot;PerInstancePropertiesChecksum\&quot;:\&quot;\&quot;,\&quot;MemorySectionName\&quot;:\&quot;\&quot;,\&quot;MemorySectionChecksum\&quot;:\&quot;\&quot;}&quot;,&quot;Execution&quot;:&quot;{\&quot;Name\&quot;:\&quot;Default\&quot;,\&quot;Checksum\&quot;:\&quot;Default\&quot;,\&quot;PerInstancePropertiesChecksum\&quot;:\&quot;\&quot;,\&quot;MemorySectionName\&quot;:\&quot;\&quot;,\&quot;MemorySectionChecksum\&quot;:\&quot;\&quot;}&quot;,&quot;SharedUtility&quot;:&quot;{\&quot;Name\&quot;:\&quot;Default\&quot;,\&quot;Checksum\&quot;:\&quot;Default\&quot;,\&quot;PerInstancePropertiesChecksum\&quot;:\&quot;\&quot;,\&quot;MemorySectionName\&quot;:\&quot;\&quot;,\&quot;MemorySectionChecksum\&quot;:\&quot;\&quot;}&quot;}</defaultsCMapping>
+    <fastestNoncontSigFeedingDerivPorts>inf</fastestNoncontSigFeedingDerivPorts>
+    <forceAutoToImplicitSolver>2</forceAutoToImplicitSolver>
+    <globalVariables>LRoof</globalVariables>
+    <globalVariables>LWall</globalVariables>
+    <globalVariables>LWindow</globalVariables>
+    <globalVariables>NG_density</globalVariables>
+    <globalVariables>S_radiator1</globalVariables>
+    <globalVariables>S_radiator2</globalVariables>
+    <globalVariables>S_radiator3</globalVariables>
+    <globalVariables>S_radiator4</globalVariables>
+    <globalVariables>area_roof_room1</globalVariables>
+    <globalVariables>area_roof_room2</globalVariables>
+    <globalVariables>area_roof_room3</globalVariables>
+    <globalVariables>area_roof_room4</globalVariables>
+    <globalVariables>area_wall_room1</globalVariables>
+    <globalVariables>area_wall_room2</globalVariables>
+    <globalVariables>area_wall_room3</globalVariables>
+    <globalVariables>area_wall_room4</globalVariables>
+    <globalVariables>area_window_room1</globalVariables>
+    <globalVariables>area_window_room2</globalVariables>
+    <globalVariables>area_window_room3</globalVariables>
+    <globalVariables>area_window_room4</globalVariables>
+    <globalVariables>c_air</globalVariables>
+    <globalVariables>c_roof</globalVariables>
+    <globalVariables>c_wall</globalVariables>
+    <globalVariables>c_window</globalVariables>
+    <globalVariables>cost</globalVariables>
+    <globalVariables>h_air_roof</globalVariables>
+    <globalVariables>h_air_wall</globalVariables>
+    <globalVariables>h_air_window</globalVariables>
+    <globalVariables>h_radiator1</globalVariables>
+    <globalVariables>h_radiator2</globalVariables>
+    <globalVariables>h_radiator3</globalVariables>
+    <globalVariables>h_radiator4</globalVariables>
+    <globalVariables>h_roof_atm</globalVariables>
+    <globalVariables>h_wall_atm</globalVariables>
+    <globalVariables>h_window_atm</globalVariables>
+    <globalVariables>kRoof</globalVariables>
+    <globalVariables>kWall</globalVariables>
+    <globalVariables>kWindow</globalVariables>
+    <globalVariables>leak_roof_percent</globalVariables>
+    <globalVariables>leak_wall_percent</globalVariables>
+    <globalVariables>leak_win_percent</globalVariables>
+    <globalVariables>roofDensity</globalVariables>
+    <globalVariables>wallDensity</globalVariables>
+    <globalVariables>windowDensity</globalVariables>
+    <hasBlockUsingZOHContinuousSampleTime>true</hasBlockUsingZOHContinuousSampleTime>
+    <hasBwsAccessed>true</hasBwsAccessed>
+    <hasBwsAccessedByAnyModel>true</hasBwsAccessedByAnyModel>
+    <hasContinuousSampleTime>true</hasContinuousSampleTime>
+    <hasNonVirtualParameterChangeEvents>true</hasNonVirtualParameterChangeEvents>
+    <hasNoncontSigFeedingDerivPorts>true</hasNoncontSigFeedingDerivPorts>
+    <loggingSaveFormat>6</loggingSaveFormat>
+    <massMatrixIr>0</massMatrixIr>
+    <massMatrixIr>1</massMatrixIr>
+    <massMatrixIr>2</massMatrixIr>
+    <massMatrixIr>1</massMatrixIr>
+    <massMatrixIr>2</massMatrixIr>
+    <massMatrixIr>3</massMatrixIr>
+    <massMatrixIr>4</massMatrixIr>
+    <massMatrixIr>3</massMatrixIr>
+    <massMatrixIr>4</massMatrixIr>
+    <massMatrixIr>5</massMatrixIr>
+    <massMatrixIr>6</massMatrixIr>
+    <massMatrixIr>5</massMatrixIr>
+    <massMatrixIr>6</massMatrixIr>
+    <massMatrixIr>9</massMatrixIr>
+    <massMatrixIr>19</massMatrixIr>
+    <massMatrixIr>7</massMatrixIr>
+    <massMatrixIr>8</massMatrixIr>
+    <massMatrixIr>7</massMatrixIr>
+    <massMatrixIr>8</massMatrixIr>
+    <massMatrixIr>12</massMatrixIr>
+    <massMatrixIr>23</massMatrixIr>
+    <massMatrixIr>10</massMatrixIr>
+    <massMatrixIr>11</massMatrixIr>
+    <massMatrixIr>10</massMatrixIr>
+    <massMatrixIr>11</massMatrixIr>
+    <massMatrixIr>15</massMatrixIr>
+    <massMatrixIr>27</massMatrixIr>
+    <massMatrixIr>13</massMatrixIr>
+    <massMatrixIr>14</massMatrixIr>
+    <massMatrixIr>13</massMatrixIr>
+    <massMatrixIr>14</massMatrixIr>
+    <massMatrixIr>18</massMatrixIr>
+    <massMatrixIr>31</massMatrixIr>
+    <massMatrixIr>16</massMatrixIr>
+    <massMatrixIr>17</massMatrixIr>
+    <massMatrixIr>16</massMatrixIr>
+    <massMatrixIr>17</massMatrixIr>
+    <massMatrixIr>20</massMatrixIr>
+    <massMatrixIr>21</massMatrixIr>
+    <massMatrixIr>22</massMatrixIr>
+    <massMatrixIr>24</massMatrixIr>
+    <massMatrixIr>25</massMatrixIr>
+    <massMatrixIr>26</massMatrixIr>
+    <massMatrixIr>28</massMatrixIr>
+    <massMatrixIr>29</massMatrixIr>
+    <massMatrixIr>30</massMatrixIr>
+    <massMatrixIr>32</massMatrixIr>
+    <massMatrixIr>33</massMatrixIr>
+    <massMatrixIr>34</massMatrixIr>
+    <massMatrixIr>132</massMatrixIr>
+    <massMatrixJc>0</massMatrixJc>
+    <massMatrixJc>1</massMatrixJc>
+    <massMatrixJc>3</massMatrixJc>
+    <massMatrixJc>5</massMatrixJc>
+    <massMatrixJc>7</massMatrixJc>
+    <massMatrixJc>9</massMatrixJc>
+    <massMatrixJc>11</massMatrixJc>
+    <massMatrixJc>13</massMatrixJc>
+    <massMatrixJc>14</massMatrixJc>
+    <massMatrixJc>15</massMatrixJc>
+    <massMatrixJc>17</massMatrixJc>
+    <massMatrixJc>19</massMatrixJc>
+    <massMatrixJc>20</massMatrixJc>
+    <massMatrixJc>21</massMatrixJc>
+    <massMatrixJc>23</massMatrixJc>
+    <massMatrixJc>25</massMatrixJc>
+    <massMatrixJc>26</massMatrixJc>
+    <massMatrixJc>27</massMatrixJc>
+    <massMatrixJc>29</massMatrixJc>
+    <massMatrixJc>31</massMatrixJc>
+    <massMatrixJc>32</massMatrixJc>
+    <massMatrixJc>33</massMatrixJc>
+    <massMatrixJc>35</massMatrixJc>
+    <massMatrixJc>37</massMatrixJc>
+    <massMatrixJc>38</massMatrixJc>
+    <massMatrixJc>39</massMatrixJc>
+    <massMatrixJc>40</massMatrixJc>
+    <massMatrixJc>41</massMatrixJc>
+    <massMatrixJc>42</massMatrixJc>
+    <massMatrixJc>43</massMatrixJc>
+    <massMatrixJc>44</massMatrixJc>
+    <massMatrixJc>45</massMatrixJc>
+    <massMatrixJc>46</massMatrixJc>
+    <massMatrixJc>47</massMatrixJc>
+    <massMatrixJc>48</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>49</massMatrixJc>
+    <massMatrixJc>50</massMatrixJc>
+    <massMatrixNzMax>50</massMatrixNzMax>
+    <massMatrixType>3</massMatrixType>
+    <maxFreqHz>1.1574074074074073e-05</maxFreqHz>
+    <needAbsoluteTimeDisallowInitPort>true</needAbsoluteTimeDisallowInitPort>
+    <nonTunableVariables>LRoof</nonTunableVariables>
+    <nonTunableVariables>LWall</nonTunableVariables>
+    <nonTunableVariables>LWindow</nonTunableVariables>
+    <nonTunableVariables>S_radiator1</nonTunableVariables>
+    <nonTunableVariables>S_radiator2</nonTunableVariables>
+    <nonTunableVariables>S_radiator3</nonTunableVariables>
+    <nonTunableVariables>S_radiator4</nonTunableVariables>
+    <nonTunableVariables>area_roof_room1</nonTunableVariables>
+    <nonTunableVariables>area_roof_room2</nonTunableVariables>
+    <nonTunableVariables>area_roof_room3</nonTunableVariables>
+    <nonTunableVariables>area_roof_room4</nonTunableVariables>
+    <nonTunableVariables>area_wall_room1</nonTunableVariables>
+    <nonTunableVariables>area_wall_room2</nonTunableVariables>
+    <nonTunableVariables>area_wall_room3</nonTunableVariables>
+    <nonTunableVariables>area_wall_room4</nonTunableVariables>
+    <nonTunableVariables>area_window_room1</nonTunableVariables>
+    <nonTunableVariables>area_window_room2</nonTunableVariables>
+    <nonTunableVariables>area_window_room3</nonTunableVariables>
+    <nonTunableVariables>area_window_room4</nonTunableVariables>
+    <nonTunableVariables>c_air</nonTunableVariables>
+    <nonTunableVariables>c_roof</nonTunableVariables>
+    <nonTunableVariables>c_wall</nonTunableVariables>
+    <nonTunableVariables>c_window</nonTunableVariables>
+    <nonTunableVariables>h_air_roof</nonTunableVariables>
+    <nonTunableVariables>h_air_wall</nonTunableVariables>
+    <nonTunableVariables>h_air_window</nonTunableVariables>
+    <nonTunableVariables>h_radiator1</nonTunableVariables>
+    <nonTunableVariables>h_radiator2</nonTunableVariables>
+    <nonTunableVariables>h_radiator3</nonTunableVariables>
+    <nonTunableVariables>h_radiator4</nonTunableVariables>
+    <nonTunableVariables>h_roof_atm</nonTunableVariables>
+    <nonTunableVariables>h_wall_atm</nonTunableVariables>
+    <nonTunableVariables>h_window_atm</nonTunableVariables>
+    <nonTunableVariables>kRoof</nonTunableVariables>
+    <nonTunableVariables>kWall</nonTunableVariables>
+    <nonTunableVariables>kWindow</nonTunableVariables>
+    <nonTunableVariables>leak_roof_percent</nonTunableVariables>
+    <nonTunableVariables>leak_wall_percent</nonTunableVariables>
+    <nonTunableVariables>leak_win_percent</nonTunableVariables>
+    <nonTunableVariables>roofDensity</nonTunableVariables>
+    <nonTunableVariables>wallDensity</nonTunableVariables>
+    <nonTunableVariables>windowDensity</nonTunableVariables>
+    <numCStateRecs>133</numCStateRecs>
+    <numContinuousStates>133</numContinuousStates>
+    <numDStateRecs>6</numDStateRecs>
+    <numDataInputPorts>0</numDataInputPorts>
+    <numLoggableCStateRecs>133</numLoggableCStateRecs>
+    <numLoggableDStateRecs>6</numLoggableDStateRecs>
+    <numLoggableJacobianDStates>12</numLoggableJacobianDStates>
+    <runtimeNonFcnCallRateInfos type="ModelRefInfoRepo.RateInfo">
+      <compiled>true</compiled>
+      <needAbsoluteTime>true</needAbsoluteTime>
+      <period>0.0</period>
+      <priority>40</priority>
+      <rateIdx>0</rateIdx>
+    </runtimeNonFcnCallRateInfos>
+    <runtimeNonFcnCallRateInfos type="ModelRefInfoRepo.RateInfo">
+      <compiled>true</compiled>
+      <offset>1.0</offset>
+      <period>0.0</period>
+      <priority>40</priority>
+      <rateIdx>1</rateIdx>
+    </runtimeNonFcnCallRateInfos>
+    <sampleTimeInheritanceRule>2</sampleTimeInheritanceRule>
+    <solverStatusFlags>33101</solverStatusFlags>
+    <solverUpdateJacobianAtReset>true</solverUpdateJacobianAtReset>
+    <timingAndTaskingRegistry>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;slexec_sto version=&quot;1.1&quot; packageUris=&quot;http://schema.mathworks.com/mf0/slexec_mm_sto/R2023a_202208151321&quot;&gt;
+  &lt;sto.Registry type=&quot;sto.Registry&quot; uuid=&quot;3086902d-aa2e-4755-85f0-04cdb898f25b&quot;&gt;
+    &lt;executionSpec&gt;Undetermined&lt;/executionSpec&gt;
+    &lt;identifier&gt;HouseHeatingSystem&lt;/identifier&gt;
+    &lt;clockRegistry type=&quot;sto.ClockRegistry&quot; uuid=&quot;2dd85b84-e44b-4a5b-acc7-d93a623ffb75&quot;&gt;
+      &lt;clocks type=&quot;sto.Timer&quot; uuid=&quot;e11f02de-7a95-4a96-b92f-87ce8c436423&quot;&gt;
+        &lt;isDefaultTimer&gt;true&lt;/isDefaultTimer&gt;
+        &lt;identifier&gt;HouseHeatingSystem::defaultTimer&lt;/identifier&gt;
+        &lt;rates type=&quot;sto.ContinuousRate&quot; uuid=&quot;9390243b-20d0-4f87-8feb-80873d3b7974&quot;&gt;
+          &lt;annotation&gt;Cont&lt;/annotation&gt;
+          &lt;clockId&gt;HouseHeatingSystem::defaultTimer&lt;/clockId&gt;
+          &lt;colorIndex&gt;-1&lt;/colorIndex&gt;
+          &lt;description&gt;Continuous&lt;/description&gt;
+          &lt;taskId&gt;_task0&lt;/taskId&gt;
+          &lt;rateSpec type=&quot;sto.RateSpec&quot; uuid=&quot;a277d753-8c47-44e3-9e08-99bbaa0bf592&quot;/&gt;
+        &lt;/rates&gt;
+        &lt;rates type=&quot;sto.ZOHContinuousRate&quot; uuid=&quot;ea1a5057-98b3-4b55-b8f0-98f31d05b968&quot;&gt;
+          &lt;annotation&gt;FiM&lt;/annotation&gt;
+          &lt;clockId&gt;HouseHeatingSystem::defaultTimer&lt;/clockId&gt;
+          &lt;colorIndex&gt;-1&lt;/colorIndex&gt;
+          &lt;description&gt;Fixed in Minor Step&lt;/description&gt;
+          &lt;rateIdx&gt;1&lt;/rateIdx&gt;
+          &lt;taskId&gt;_task0&lt;/taskId&gt;
+          &lt;rateSpec type=&quot;sto.RateSpec&quot; uuid=&quot;a2166fe8-a986-4f23-a601-3629668c9b35&quot;&gt;
+            &lt;offset&gt;1.0&lt;/offset&gt;
+            &lt;rateType&gt;ZOHContinuous&lt;/rateType&gt;
+          &lt;/rateSpec&gt;
+        &lt;/rates&gt;
+        &lt;baseRate type=&quot;sto.ContinuousRate&quot; uuid=&quot;c2b57a28-68b8-4a83-b12d-47bf42f50527&quot;&gt;
+          &lt;annotation&gt;Cont&lt;/annotation&gt;
+          &lt;clockId&gt;HouseHeatingSystem::defaultTimer&lt;/clockId&gt;
+          &lt;colorIndex&gt;-1&lt;/colorIndex&gt;
+          &lt;description&gt;Continuous&lt;/description&gt;
+          &lt;taskId&gt;_task0&lt;/taskId&gt;
+          &lt;rateSpec type=&quot;sto.RateSpec&quot; uuid=&quot;467db539-5c59-4d05-8555-fa5ad09c7a72&quot;/&gt;
+        &lt;/baseRate&gt;
+      &lt;/clocks&gt;
+      &lt;clocks type=&quot;sto.Event&quot; uuid=&quot;34054970-3725-4ee4-b5ef-672a35d72d76&quot;&gt;
+        &lt;eventType&gt;PARAMETER_CHANGE_EVENT&lt;/eventType&gt;
+        &lt;cNum&gt;1&lt;/cNum&gt;
+        &lt;clockType&gt;Event&lt;/clockType&gt;
+        &lt;identifier&gt;ParameterChangeEvent&lt;/identifier&gt;
+        &lt;rates type=&quot;sto.ModelWideEventRate&quot; uuid=&quot;a15f5700-4cc4-4ded-a35c-a1755d5e6da6&quot;&gt;
+          &lt;annotation&gt;Inf&lt;/annotation&gt;
+          &lt;clockId&gt;ParameterChangeEvent&lt;/clockId&gt;
+          &lt;colorIndex&gt;-1&lt;/colorIndex&gt;
+          &lt;description&gt;Constant&lt;/description&gt;
+          &lt;rateIdx&gt;2&lt;/rateIdx&gt;
+          &lt;taskId&gt;ModelWideParameterChangeEvent&lt;/taskId&gt;
+          &lt;rateSpec type=&quot;sto.RateSpec&quot; uuid=&quot;21e6d1e4-fdfd-45d6-b750-3c543d19c084&quot;&gt;
+            &lt;period&gt;inf&lt;/period&gt;
+            &lt;rateType&gt;ModelWideParameterChangeEvent&lt;/rateType&gt;
+          &lt;/rateSpec&gt;
+        &lt;/rates&gt;
+      &lt;/clocks&gt;
+    &lt;/clockRegistry&gt;
+    &lt;taskRegistry type=&quot;sto.TaskRegistry&quot; uuid=&quot;10853067-cd64-4a5d-b23b-e8830d20bbf5&quot;&gt;
+      &lt;hasUnknownEdges&gt;true&lt;/hasUnknownEdges&gt;
+      &lt;rootTaskHierarchyElements type=&quot;sto.Task&quot; uuid=&quot;de836430-7a62-4c0a-a4ca-ad43903881a4&quot;&gt;
+        &lt;isExecutable&gt;true&lt;/isExecutable&gt;
+        &lt;isExplicit&gt;true&lt;/isExplicit&gt;
+        &lt;rates type=&quot;sto.ModelWideEventRate&quot; uuid=&quot;161c18fd-cb36-45b0-adfc-c00546bbba68&quot;&gt;
+          &lt;annotation&gt;Inf&lt;/annotation&gt;
+          &lt;clockId&gt;ParameterChangeEvent&lt;/clockId&gt;
+          &lt;colorIndex&gt;-1&lt;/colorIndex&gt;
+          &lt;description&gt;Constant&lt;/description&gt;
+          &lt;rateIdx&gt;2&lt;/rateIdx&gt;
+          &lt;taskId&gt;ModelWideParameterChangeEvent&lt;/taskId&gt;
+          &lt;rateSpec type=&quot;sto.RateSpec&quot; uuid=&quot;c12711d3-5a53-4212-a71d-604ba3c9a77d&quot;&gt;
+            &lt;period&gt;inf&lt;/period&gt;
+            &lt;rateType&gt;ModelWideParameterChangeEvent&lt;/rateType&gt;
+          &lt;/rateSpec&gt;
+        &lt;/rates&gt;
+        &lt;schedulingClockId&gt;ParameterChangeEvent&lt;/schedulingClockId&gt;
+        &lt;tNum&gt;1&lt;/tNum&gt;
+        &lt;timeKeeperClockId&gt;HouseHeatingSystem::defaultTimer&lt;/timeKeeperClockId&gt;
+        &lt;elementType&gt;Task&lt;/elementType&gt;
+        &lt;identifier&gt;ModelWideParameterChangeEvent&lt;/identifier&gt;
+        &lt;priority&gt;-1&lt;/priority&gt;
+      &lt;/rootTaskHierarchyElements&gt;
+      &lt;rootTaskHierarchyElements type=&quot;sto.Task&quot; uuid=&quot;088fc51a-b5aa-4618-8021-1edd52cd8223&quot;&gt;
+        &lt;isExecutable&gt;true&lt;/isExecutable&gt;
+        &lt;orderIndex&gt;1&lt;/orderIndex&gt;
+        &lt;rates type=&quot;sto.ContinuousRate&quot; uuid=&quot;573eb85e-0008-4ef5-9772-be11ef03bd67&quot;&gt;
+          &lt;annotation&gt;Cont&lt;/annotation&gt;
+          &lt;clockId&gt;HouseHeatingSystem::defaultTimer&lt;/clockId&gt;
+          &lt;colorIndex&gt;-1&lt;/colorIndex&gt;
+          &lt;description&gt;Continuous&lt;/description&gt;
+          &lt;taskId&gt;_task0&lt;/taskId&gt;
+          &lt;rateSpec type=&quot;sto.RateSpec&quot; uuid=&quot;af963109-d0a9-4c7f-aa63-f3720b602a4e&quot;/&gt;
+        &lt;/rates&gt;
+        &lt;rates type=&quot;sto.ZOHContinuousRate&quot; uuid=&quot;14162c55-6349-4bcb-857a-0473296e5796&quot;&gt;
+          &lt;annotation&gt;FiM&lt;/annotation&gt;
+          &lt;clockId&gt;HouseHeatingSystem::defaultTimer&lt;/clockId&gt;
+          &lt;colorIndex&gt;-1&lt;/colorIndex&gt;
+          &lt;description&gt;Fixed in Minor Step&lt;/description&gt;
+          &lt;rateIdx&gt;1&lt;/rateIdx&gt;
+          &lt;taskId&gt;_task0&lt;/taskId&gt;
+          &lt;rateSpec type=&quot;sto.RateSpec&quot; uuid=&quot;f82b08c7-20b0-41c4-9b67-5dcc76cf9608&quot;&gt;
+            &lt;offset&gt;1.0&lt;/offset&gt;
+            &lt;rateType&gt;ZOHContinuous&lt;/rateType&gt;
+          &lt;/rateSpec&gt;
+        &lt;/rates&gt;
+        &lt;schedulingClockId&gt;HouseHeatingSystem::defaultTimer&lt;/schedulingClockId&gt;
+        &lt;timeKeeperClockId&gt;HouseHeatingSystem::defaultTimer&lt;/timeKeeperClockId&gt;
+        &lt;elementType&gt;Task&lt;/elementType&gt;
+        &lt;identifier&gt;_task0&lt;/identifier&gt;
+        &lt;priority&gt;40&lt;/priority&gt;
+      &lt;/rootTaskHierarchyElements&gt;
+      &lt;taskDependencyGraph type=&quot;sto.SerializedTaskConnectionList&quot; uuid=&quot;95cd4dd0-b479-46ea-8a18-aa2f4de34e15&quot;&gt;
+        &lt;clockIdentifier&gt;HouseHeatingSystem::defaultTimer&lt;/clockIdentifier&gt;
+        &lt;taskIdentifier&gt;_task0&lt;/taskIdentifier&gt;
+      &lt;/taskDependencyGraph&gt;
+      &lt;taskDependencyGraph type=&quot;sto.SerializedTaskConnectionList&quot; uuid=&quot;270ece86-d563-452e-a4ad-187f4b978d52&quot;&gt;
+        &lt;clockIdentifier&gt;ParameterChangeEvent&lt;/clockIdentifier&gt;
+        &lt;serializedConnectionProperties type=&quot;sto.SerializedConnectionProperties&quot; uuid=&quot;257f57cd-a7af-4464-ab07-8cfe6e52be0d&quot;&gt;
+          &lt;targetClockIdentifier&gt;HouseHeatingSystem::defaultTimer&lt;/targetClockIdentifier&gt;
+          &lt;targetTaskIdentifier&gt;_task0&lt;/targetTaskIdentifier&gt;
+        &lt;/serializedConnectionProperties&gt;
+        &lt;taskIdentifier&gt;ModelWideParameterChangeEvent&lt;/taskIdentifier&gt;
+      &lt;/taskDependencyGraph&gt;
+      &lt;taskPriorityDirection&gt;HighNumberLast&lt;/taskPriorityDirection&gt;
+    &lt;/taskRegistry&gt;
+  &lt;/sto.Registry&gt;
+&lt;/slexec_sto&gt;</timingAndTaskingRegistry>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="43eb16b1-9185-4674-8894-9b247bed2cb4">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Fixed_Displacement_Pump_TL.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="f9990795-4d7a-4453-aac6-e2976790c20f">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator4.Pipe_TL.segment.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="d342cd1c-2ca6-4c0d-8217-21a23caa5ede">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator4.Pipe_TL.segment.zc_2</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="88908cd9-e3e4-43b0-9ff5-dc955a522f9e">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator4.Pipe_TL.segment.zc_3</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="0a524d6f-90e8-4c0a-901f-06becfb980e8">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator4.Pipe_TL.segment.zc_4</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="65a10ea1-df83-44a6-bae9-e071855a0459">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Fixed_Displacement_Pump_TL.zc_2</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="a810395d-d2c0-4cb9-8b58-50daf3111333">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Boiler.E_NTU_Heat_Exchanger_TL.thermal_liquid_1.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="4fd0a176-64ec-49f8-bc8f-3d98e035fab2">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Boiler.E_NTU_Heat_Exchanger_TL.thermal_liquid_1.zc_2</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="2a26160a-e0a7-48e4-bbe7-c8692d2273c9">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Fixed_Displacement_Pump_TL.zc_3</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="c700c22f-a3ae-4294-ae58-44e5a9f5f8b8">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Fixed_Displacement_Pump_TL.zc_4</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="42902230-99af-436f-af12-11b7ba8c012e">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Gas_Charged_Accumulator_TL.der_liquid_volume.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="4587d60c-cf7f-4479-82fa-ec29958e6bdf">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Gas_Charged_Accumulator_TL.der_liquid_volume.zc_2</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="29796435-c58f-457e-8ce8-b794cb7fd3ef">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Gas_Charged_Accumulator_TL.zc_3</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="449df1f2-6e53-4a80-82a8-67dbb8755134">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Gas_Charged_Accumulator_TL.zc_4</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="11fc8ec6-6954-407d-a3b9-e24757653a72">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Gas_Charged_Accumulator_TL.zc_5</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="6c0d7c1e-f3bf-474f-8469-3858a4ab695c">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Gas_Charged_Accumulator_TL.zc_6</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="33c2bd61-eab9-48d3-bdf8-fac87747495a">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Pipe_TL.segment.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="9c8b4418-2ed6-4a83-a7be-bce71def3933">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Pipe_TL.segment.zc_2</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="e2c87f1d-a439-4a8f-b512-7f6b11602d36">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Gas_Charged_Accumulator_TL.zc_7</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="58a61433-0b98-4941-bf8e-309e55bc489a">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Gas_Charged_Accumulator_TL.zc_8</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="825485c0-10c5-4a7f-8ec1-304e908ad1a4">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Gas_Charged_Accumulator_TL.zc_9</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="cadce574-8990-4a6e-9556-fea246edb2ad">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Pipe_TL.segment.zc_3</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="5c8fb255-21ca-4a47-a709-490abdc1c144">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Pipe_TL.segment.zc_4</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="e016087d-d769-4bcc-a180-e831e9f18f22">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator4.Pipe_TL.segment.zc_5</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="645ed198-5f73-42df-8dce-87b428a51779">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator4.Pipe_TL.segment.zc_6</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="5323111f-ca3a-48d8-9f87-d06c49f2185a">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator4.Pipe_TL.segment.zc_7</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="38fde995-9e96-4918-b67e-d02242e1be1c">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator4.Pipe_TL.segment.zc_8</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="f5e4a987-177d-49ec-ba27-c5715edcedfa">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Pipe_TL.segment.zc_5</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="2f4728f0-d2b5-4986-9e9c-aa31a86631f8">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Pipe_TL.segment.zc_6</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="e21df2b5-c2a7-4fd8-9ad3-f81d30aee835">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Pipe_TL.segment.zc_7</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="2832d485-bff5-446e-97d5-08eb7fdf6599">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Pipe_TL.segment.zc_8</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="fc4e835a-c5f5-4c4f-ba5e-be0c5b4ca4b1">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Pipe_TL.segment.zc_9</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="3c8eb163-772a-4347-b6e7-93c9f86f6140">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator1.Pipe_TL.segment.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="3c16d4d5-8705-4266-9657-bb1d1a0bf2e3">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator1.Pipe_TL.segment.zc_2</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="5b17554f-cfdd-4ef7-b05e-89c4f73f67d8">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator1.Pipe_TL.segment.zc_3</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="7259b78a-91ac-4234-8c54-de53c7ddbf6e">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator1.Pipe_TL.segment.zc_4</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="bcbb6980-7fc9-4d54-b5be-412b92259764">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator1.Pipe_TL.segment.zc_5</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="c51ecdab-f453-44f5-b1aa-7281943b25b3">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator1.Pipe_TL.segment.zc_6</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="3fdd0e0e-d11c-40c2-8057-3862fd0de034">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator1.Pipe_TL.segment.zc_7</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="3b14d15d-0230-46fb-9440-6c3d7a68ae22">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator2.Pipe_TL.segment.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="4a6a532f-90e0-4cac-be7f-f293c925ea4d">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator2.Pipe_TL.segment.zc_2</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="17b7effb-42df-4232-8001-8f354214b7a9">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator2.Pipe_TL.segment.zc_3</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="3d266693-c83c-495a-8705-7157f07c1bd5">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator2.Pipe_TL.segment.zc_4</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="472df349-843c-4080-8b69-7f8c0101f155">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator2.Pipe_TL.segment.zc_5</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="4f6f5148-c6f4-4803-b31b-21c15919393a">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator2.Pipe_TL.segment.zc_6</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="93e781e2-3dd9-45a3-b62d-3e2b6bd10e8a">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator2.Pipe_TL.segment.zc_7</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="34adf850-64b7-4e15-ad9c-ab36b5b5ee2d">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator3.Pipe_TL.segment.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="b407dc43-0733-40a8-81cb-2c93be222eea">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator3.Pipe_TL.segment.zc_2</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="a102f230-0ef5-4b80-a8c8-206d899ab23b">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator3.Pipe_TL.segment.zc_3</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="178c6bef-1d75-4748-b5f4-93109ef16533">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator3.Pipe_TL.segment.zc_4</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="6a624472-f6b4-4bf7-bf51-a32dadddbce8">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator3.Pipe_TL.segment.zc_5</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="07a32a43-ddb5-40d6-b9e2-d3ee6f7014e4">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator3.Pipe_TL.segment.zc_6</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="b864be7f-7a27-4470-bdc8-07f52c8060dd">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator3.Pipe_TL.segment.zc_7</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="c620902f-f555-4d2b-a477-3b0264f6760e">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator4.Pipe_TL.segment.zc_9</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="ffb3e5be-185e-49a2-b9b5-20c22144fa24">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator4.Pipe_TL.segment.zc_10</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="2d336716-dd56-41b4-bfef-e54e762dd68a">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator4.Pipe_TL.segment.zc_11</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="77406628-2f22-49d0-b672-54fbe71264db">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator4.Pipe_TL.segment.zc_12</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="ae20a143-f1b2-4426-b39f-6e2f1b8a4ae4">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator4.Pipe_TL.segment.zc_13</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="33e47cbc-c733-4f00-a0f6-7ee12b2d479a">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator4.Pipe_TL.segment.zc_14</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="0381c4ff-ca4f-4522-8894-1d926221f22e">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator4.Pipe_TL.segment.zc_15</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="81ae7285-57e3-49e9-8d0e-d6b1a702ebf1">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator1.Radiator_thermal_mass.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="8503f9b5-29e5-47bc-8c97-a5ad502e4d37">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator2.Radiator_thermal_mass.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="e7eec8f2-c56d-422f-8059-4b4e1511abe7">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator3.Radiator_thermal_mass.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="28e7fccc-1ad1-4b72-851a-3d9d988f5f7d">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Radiator4.Radiator_thermal_mass.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="dae71c99-19cd-4d76-a1ef-b7bb877a4af5">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Room_1.Air_thermal_mass.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="cd13313a-a731-4d2f-bbc6-7fe48b913149">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Room_1.Roof_thermal_mass.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="3ce3523b-ca60-48b5-8a01-475ebcca4f4d">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Room_1.Wall_thermal_mass.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="153d37c5-ccc8-472f-83a3-419183e159b0">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Room_1.Window_thermal_mass.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="86776633-5a38-4fb0-b96e-93b00f542afe">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Room_2.Air_thermal_mass.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="47c1e003-0662-4d56-a049-df428dacaecf">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Room_2.Roof_thermal_mass.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="43c15c6f-a648-4e05-963d-f6decf6be5ab">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Room_2.Wall_thermal_mass.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="bd07ed88-c29d-4e64-b530-8349cf3c2e7c">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Room_2.Window_thermal_mass.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="26d4eb21-fbf1-4667-b069-ea3b79a90c05">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Room_3.Air_thermal_mass.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="f40284de-6abf-4e51-b2e6-57e6b8b220ab">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Room_3.Roof_thermal_mass.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="2e2bb657-f4a0-465b-9cab-73109f47274d">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Room_3.Wall_thermal_mass.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="9cf6a69e-5282-4f2a-9cef-ea85395c7f87">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Room_3.Window_thermal_mass.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="ca524422-8d6b-444a-93e9-806ff90b3986">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Room_4.Air_thermal_mass.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="086d54a8-ff26-4f1a-a760-9f74469630c2">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Room_4.Roof_thermal_mass.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="ea7f7ae8-661d-403a-ad34-930ced8cf968">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Room_4.Wall_thermal_mass.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="f1c9ebb8-b264-4cf8-8101-23556eef8947">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>House_thermal_network.Room_4.Window_thermal_mass.zc_1</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="34cb2ce6-2488-4c35-9262-deed5768bb5f">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Boiler.E_NTU_Heat_Exchanger_TL.thermal_liquid_1.zc_3</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="d5792b2c-380d-4ea2-90c1-9a4b730e3a2c">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Boiler.E_NTU_Heat_Exchanger_TL.thermal_liquid_1.zc_4</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="5f2f45ef-3785-400e-9ca4-442c81bb5220">
+      <direction>29</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Boiler.E_NTU_Heat_Exchanger_TL.thermal_liquid_1.zc_5</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="38d5991f-a4f5-4659-a962-e2aa168f123f">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Boiler.E_NTU_Heat_Exchanger_TL.thermal_liquid_1.zc_6</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="e009dd47-870a-429d-a423-20e0ce93836a">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Boiler.E_NTU_Heat_Exchanger_TL.thermal_liquid_1.zc_7</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="0b1c6146-9492-4a56-9e21-1aa72743dcce">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Boiler.E_NTU_Heat_Exchanger_TL.thermal_liquid_1.zc_8</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="f0c00d09-788a-4fb2-8d29-2b2e80ec02b1">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Boiler.E_NTU_Heat_Exchanger_TL.thermal_liquid_1.zc_9</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="da5b3b38-2d64-44e0-9081-d9e1ab6bd437">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Boiler.E_NTU_Heat_Exchanger_TL.thermal_liquid_1.zc_10</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="161cb14b-7f41-4354-b087-9cf048333f80">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Boiler.E_NTU_Heat_Exchanger_TL.thermal_liquid_1.zc_11</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="ab960bdd-5806-4b18-921a-5532f68c549e">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Boiler.E_NTU_Heat_Exchanger_TL.thermal_liquid_1.zc_12</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="962c4058-0764-4138-8b05-4747c51e2ae0">
+      <direction>43</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>Heater.Boiler.E_NTU_Heat_Exchanger_TL.thermal_liquid_1.zc_13</name>
+      <needsEventNotification>true</needsEventNotification>
+      <needsSolverReset>true</needsSolverReset>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <zeroCrossingInfo type="ModelRefInfoRepo.ZeroCrossingInfo" uuid="04227701-77ad-45bd-8ed9-b05943cc0238">
+      <direction>63</direction>
+      <isDiscrete>false</isDiscrete>
+      <name>RelayZC</name>
+      <tolerance>-1.0</tolerance>
+      <width>1</width>
+    </zeroCrossingInfo>
+    <FMUBlockMap type="ModelRefInfoRepo.FMUBlockInfo" uuid="a4a1174e-0c35-4a93-90d3-6a7d2d96eeaa"/>
+    <codeGenInfo type="ModelRefInfoRepo.CodeGenInformation" uuid="e63ea0d7-dd6d-438a-a484-a83f76cf80db"/>
+    <compiledVariantInfos type="ModelRefInfoRepo.CompiledVariantInfoMap" uuid="92a1f867-9326-442a-99eb-4b0011654c8b"/>
+    <configSettingsForConsistencyChecks type="ModelRefInfoRepo.ConfigSettingsForConsistencyChecks" uuid="979c005e-6899-4f0e-a1bb-e5880168e85f">
+      <consistentOutportInitialization>true</consistentOutportInitialization>
+      <frameDiagnosticSetting>2</frameDiagnosticSetting>
+      <signalLoggingSaveFormat>2</signalLoggingSaveFormat>
+      <simSIMDOptimization>1</simSIMDOptimization>
+      <solverName>daessc</solverName>
+      <hardwareSettings type="ModelRefInfoRepo.HardwareSettings" uuid="69bedb5d-23bb-4f57-9934-ec8364d0f994">
+        <prodBitPerChar>8</prodBitPerChar>
+        <prodBitPerDouble>64</prodBitPerDouble>
+        <prodBitPerFloat>32</prodBitPerFloat>
+        <prodBitPerInt>32</prodBitPerInt>
+        <prodBitPerLong>32</prodBitPerLong>
+        <prodBitPerLongLong>64</prodBitPerLongLong>
+        <prodBitPerPointer>32</prodBitPerPointer>
+        <prodBitPerPtrDiffT>32</prodBitPerPtrDiffT>
+        <prodBitPerShort>16</prodBitPerShort>
+        <prodBitPerSizeT>32</prodBitPerSizeT>
+        <prodIntDivRoundTo>2</prodIntDivRoundTo>
+        <prodLargestAtomicFloat>2</prodLargestAtomicFloat>
+        <prodShiftRight>true</prodShiftRight>
+        <prodWordSize>32</prodWordSize>
+      </hardwareSettings>
+    </configSettingsForConsistencyChecks>
+    <controllableInputRatesMap type="ModelRefInfoRepo.VarTsUIDMap" uuid="44327184-19e1-4b56-8a8a-325481fddfbd"/>
+    <controllableOutputRatesMap type="ModelRefInfoRepo.VarTsUIDMap" uuid="3e5b2dd6-0403-4353-a727-bcc20d744db2"/>
+    <dataPortGroup type="ModelRefInfoRepo.DataPortGroup" uuid="37a04ad0-1041-4b4c-a43b-57fb0c916ee9"/>
+    <expFcnUnconnectedDataPortGroup type="ModelRefInfoRepo.DataPortGroup" uuid="275adf80-41f8-4d94-901d-88c1af3a1d74"/>
+    <interfaceParameterInfo type="ModelRefInfoRepo.InterfaceParameterInfo" uuid="6e0fb062-826b-43db-b72a-ece53592a2b0">
+      <globalVariables type="ModelRefInfoRepo.BuiltinParameter" uuid="f88b9490-eb21-41b6-ad41-b29d934e5b6b">
+        <dimensions>1</dimensions>
+        <dimensions>1</dimensions>
+        <isUsed>true</isUsed>
+        <numDimensions>2</numDimensions>
+        <parameterName>NG_density</parameterName>
+      </globalVariables>
+      <globalVariables type="ModelRefInfoRepo.BuiltinParameter" uuid="b6fdbbe6-9fd3-4442-91fc-f12dd751b2c1">
+        <dimensions>1</dimensions>
+        <dimensions>1</dimensions>
+        <isUsed>true</isUsed>
+        <numDimensions>2</numDimensions>
+        <parameterName>cost</parameterName>
+      </globalVariables>
+    </interfaceParameterInfo>
+    <messageInfo type="ModelRefInfoRepo.MessageInformation" uuid="43281a0d-37b9-428a-af8e-a0340cb29cae"/>
+    <methodInfo type="ModelRefInfoRepo.MethodExistenceInfo" uuid="7f2cb515-5f33-4a7c-b632-86401287bae8">
+      <hasDerivMethod>true</hasDerivMethod>
+      <hasDisableMethod>true</hasDisableMethod>
+      <hasForcingFunctionMethod>true</hasForcingFunctionMethod>
+      <hasMassMatrixMethod>true</hasMassMatrixMethod>
+      <hasSystemInitializeMethod>true</hasSystemInitializeMethod>
+      <hasSystemResetMethod>true</hasSystemResetMethod>
+      <hasTerminateMethod>true</hasTerminateMethod>
+      <hasUpdateMethod>true</hasUpdateMethod>
+    </methodInfo>
+    <periodicEventPortUnsupportedBlockInfo type="ModelRefInfoRepo.PeriodicEventPortUnsupportedBlockInfo" uuid="72219698-18ae-4732-9a5a-21c3f0eb7649">
+      <multiRateBlocks>HouseHeatingSystem/Control/Relay</multiRateBlocks>
+    </periodicEventPortUnsupportedBlockInfo>
+    <portGroupsRequireSameRate type="ModelRefInfoRepo.PortGroupsRequireSameRate" uuid="a8f1eadb-2225-469c-8fd0-337d753b1fae">
+      <DSMPortGroups type="ModelRefInfoRepo.NameToPortGroupIdxVectMap" uuid="a661836a-2383-4f17-874e-669df6471154"/>
+      <GlobalDSMPortGroups type="ModelRefInfoRepo.NameToPortGroupIdxVectMap" uuid="a4bf06fd-c5fa-4c51-812c-8ba288bbad11"/>
+      <mergedPortGroups type="ModelRefInfoRepo.NameToPortGroupIdxVectMap" uuid="46f8039f-c708-4ac8-ada4-56e5f3062074"/>
+    </portGroupsRequireSameRate>
+    <rateBasedMdlGlobalDSMRateSpec type="ModelRefInfoRepo.GlobalDSMRateSpecMap" uuid="cc62a935-7796-4249-93ce-1a7536c0d1a3"/>
+    <rateSpecOfGlobalDSMAccessedByDescExpFcnMdlMap type="ModelRefInfoRepo.GlobalDSMRateSpecMap" uuid="05dcc44d-bf84-42f6-ab1b-75da9faa76b9"/>
+    <rootBlockDiagramInterface type="ci.Model" uuid="ef12d425-2988-4cc7-8784-5d1ec23c6b61">
+      <p_RootComponentInterface type="ci.ComponentInterface" uuid="37682132-eee3-4877-a75a-1d3babff9283">
+        <p_Name>HouseHeatingSystem</p_Name>
+        <p_Type>ROOT</p_Type>
+      </p_RootComponentInterface>
+    </rootBlockDiagramInterface>
+    <simulinkFunctions type="ModelRefInfoRepo.SimulinkFunctions" uuid="3bd85d79-d44e-4ee3-820e-dc5a0bf9b9fc">
+      <compSimulinkFunctionCatalog></compSimulinkFunctionCatalog>
+    </simulinkFunctions>
+    <sltpContext type="sltp.mm.core.Context" uuid="dffa906f-9212-495f-b4b2-b959f73409dd">
+      <priorityDirection>HighNumberLast</priorityDirection>
+      <defaultEventBehavior type="sltp.mm.core.EventBehavior" uuid="948a6177-7e37-4a0e-b1bd-abdd70b16151"/>
+      <editorState type="sltp.mm.core.EditorState" uuid="82891d91-9c33-42b8-9f96-3c606f99fc09">
+        <isSynchronized>true</isSynchronized>
+        <panelState type="sltp.mm.core.EditorPanelState" uuid="07644135-e86a-45bc-b23d-a290692c2cc3"/>
+      </editorState>
+      <rootTask type="sltp.mm.core.Task" uuid="d4df1f6a-2892-4e21-b53e-02c17a805a34">
+        <context type="sltp.mm.core.Context" uuid="dffa906f-9212-495f-b4b2-b959f73409dd"/>
+        <explicit>false</explicit>
+        <name>Default</name>
+        <priority>-2147483648</priority>
+        <subgraph type="sltp.mm.core.Graph" uuid="c307a479-082a-4087-beaa-49d2a0ee5c66">
+          <tasks type="sltp.mm.core.Task" uuid="1ba31793-17ba-43b6-9702-eecb907bf648">
+            <baseTask>true</baseTask>
+            <context type="sltp.mm.core.Context" uuid="dffa906f-9212-495f-b4b2-b959f73409dd"/>
+            <explicit>false</explicit>
+            <id>1</id>
+            <isTimed>true</isTimed>
+            <name>Cont</name>
+            <priority>40</priority>
+            <rates type="sltp.mm.core.Rate" uuid="23b7e9ae-2dd3-4d7a-b56a-001cd9ad1c9e">
+              <annotation>Cont</annotation>
+              <color>255</color>
+              <hasBlocks>true</hasBlocks>
+              <identifier>Continuous00</identifier>
+              <rateIndex>0</rateIndex>
+              <rateSpec type="sltp.mm.core.RateSpec">
+                <period>0.0</period>
+              </rateSpec>
+              <sti>0</sti>
+            </rates>
+            <rates type="sltp.mm.core.Rate" uuid="810393f8-0153-4414-9cd6-be43aee49654">
+              <annotation>FiM</annotation>
+              <color>255</color>
+              <hasBlocks>true</hasBlocks>
+              <rateIndex>1</rateIndex>
+              <rateSpec type="sltp.mm.core.RateSpec">
+                <offset>1.0</offset>
+                <period>0.0</period>
+              </rateSpec>
+              <sti>1</sti>
+            </rates>
+          </tasks>
+        </subgraph>
+      </rootTask>
+    </sltpContext>
+    <stateWriterToOwnerMap type="ModelRefInfoRepo.StateWriterInfo" uuid="127f18bc-37ea-4668-998f-09218eb65ea8"/>
+    <stoClientDataRegistry type="sto.ClientDataRegistry" uuid="8bd2efef-52ad-4cbd-8bb5-80f3d19ee8c2">
+      <dataSets type="sto.ClientClockNamedDataSet" uuid="aae25432-ba9b-4211-b77c-60df2a91b606">
+        <tag>sltpEvents</tag>
+      </dataSets>
+      <dataSets type="sto.ClientTaskHierarchyElementNamedDataSet" uuid="041e4865-dabb-40ad-a92d-297ec27a8499">
+        <tag>sltpTaskGroups</tag>
+      </dataSets>
+      <dataSets type="sto.ClientTaskHierarchyElementNamedDataSet" uuid="01c44c75-957b-44a8-b2fc-fecd56901e3f">
+        <dSet type="ModelRefInfoRepo.SltpTaskData" uuid="2887d671-53eb-47b1-927b-85809349d276"/>
+        <tSet type="ModelRefInfoRepo.SltpTaskData" uuid="2887d671-53eb-47b1-927b-85809349d276">
+          <dataName>Cont</dataName>
+          <linkedSet type="sto.ClientTaskHierarchyElementNamedDataSet" uuid="01c44c75-957b-44a8-b2fc-fecd56901e3f"/>
+          <id type="sto.TaskHierarchyElementId">
+            <clockId>HouseHeatingSystem::defaultTimer</clockId>
+            <id>_task0</id>
+          </id>
+        </tSet>
+        <tag>sltpTasks</tag>
+      </dataSets>
+    </stoClientDataRegistry>
+    <typeTable type="type_info.TypeTable" uuid="0e7585bd-06a2-43b9-a9ef-1e4fea5a6a13">
+      <Types type="type_info.Type" uuid="caf03213-d0ed-42c4-b8bd-fe4417d098a3">
+        <Name>action</Name>
+      </Types>
+      <Types type="type_info.NumericType" uuid="63f735af-53e9-4b25-95db-e9a7e898a201">
+        <MxClassId>3</MxClassId>
+        <Size>1</Size>
+        <typeEnum>NUMERIC</typeEnum>
+        <Name>boolean</Name>
+      </Types>
+      <Types type="type_info.NumericType" uuid="2e1d7c02-9878-4e2a-96dc-880d4e6cedde">
+        <DataTypeId>1</DataTypeId>
+        <MxClassId>6</MxClassId>
+        <Size>8</Size>
+        <typeEnum>NUMERIC</typeEnum>
+        <Name>double</Name>
+      </Types>
+      <Types type="type_info.Type" uuid="e7a1cae5-098a-4e40-bee6-48e9f48d7bf1">
+        <Name>fcn_call</Name>
+      </Types>
+      <Types type="type_info.NumericType" uuid="044c707d-e4fd-4a67-b22f-c0f269cc538e">
+        <MxClassId>10</MxClassId>
+        <Size>2</Size>
+        <typeEnum>NUMERIC</typeEnum>
+        <Name>int16</Name>
+      </Types>
+      <Types type="type_info.NumericType" uuid="d7ca3a3c-1051-4936-a39c-7253bacebdbe">
+        <MxClassId>12</MxClassId>
+        <Size>4</Size>
+        <Name>int32</Name>
+      </Types>
+      <Types type="type_info.FixedPointType" uuid="5f39cd54-0844-4309-9f0a-fc87c67a73aa">
+        <DataTypeId>15</DataTypeId>
+        <Size>8</Size>
+        <typeEnum>FIXPOINT</typeEnum>
+        <Name>int64</Name>
+      </Types>
+      <Types type="type_info.NumericType" uuid="556f50af-0f25-4885-9677-05776f20cc04">
+        <MxClassId>8</MxClassId>
+        <Size>1</Size>
+        <typeEnum>NUMERIC</typeEnum>
+        <Name>int8</Name>
+      </Types>
+      <Types type="type_info.Type" uuid="48d41096-b14d-4e1b-a612-d207218673b8">
+        <Name>integer</Name>
+      </Types>
+      <Types type="type_info.Type" uuid="55e9e813-c5f0-48cc-b6bb-c4b5ec5aebf3">
+        <Name>physical_connection</Name>
+      </Types>
+      <Types type="type_info.Type" uuid="e3de8576-e1ed-4449-8d96-84712c1172b1">
+        <Name>pointer</Name>
+      </Types>
+      <Types type="type_info.NumericType" uuid="7adcb4b2-a4a8-442e-a1c8-93b3400fc4ba">
+        <MxClassId>7</MxClassId>
+        <Size>4</Size>
+        <typeEnum>NUMERIC</typeEnum>
+        <Name>single</Name>
+      </Types>
+      <Types type="type_info.Type" uuid="f39d9db2-c764-4a2f-9a3e-fb1754d49a44">
+        <Name>timer_uint32_pair</Name>
+      </Types>
+      <Types type="type_info.NumericType" uuid="3e72bda0-1f21-45c0-92e7-a6912c963583">
+        <MxClassId>11</MxClassId>
+        <Size>2</Size>
+        <typeEnum>NUMERIC</typeEnum>
+        <Name>uint16</Name>
+      </Types>
+      <Types type="type_info.NumericType" uuid="9984ae6e-179e-4243-85e5-928788e4cac8">
+        <MxClassId>13</MxClassId>
+        <Size>4</Size>
+        <typeEnum>NUMERIC</typeEnum>
+        <Name>uint32</Name>
+      </Types>
+      <Types type="type_info.FixedPointType" uuid="76f75bdd-e73d-4ffe-9ac2-fabfbce08484">
+        <DataTypeId>16</DataTypeId>
+        <Size>8</Size>
+        <typeEnum>FIXPOINT</typeEnum>
+        <Name>uint64</Name>
+      </Types>
+      <Types type="type_info.NumericType" uuid="f587f68e-dfc0-4880-8033-b3740278368a">
+        <MxClassId>9</MxClassId>
+        <Size>1</Size>
+        <typeEnum>NUMERIC</typeEnum>
+        <Name>uint8</Name>
+      </Types>
+      <isInitialized>true</isInitialized>
+    </typeTable>
+    <varTsUIDMap type="ModelRefInfoRepo.VarTsUIDMap" uuid="4291850d-065b-4fb0-a0a9-d1c088ff982d"/>
+  </ModelRefInfoRepo.ModelRefInfoRoot>
+</MF0>
