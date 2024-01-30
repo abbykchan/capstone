@@ -1,0 +1,5 @@
+{
+    "current_temperature": 22.5,
+    "target_temperature": 24,
+    "temperature_change": "decrease"
+}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thermostat UI</title>
+  </head>
+  <body>
+    <h1>Thermostat UI</h1>
+    <p>Current Desired Temperature: {{ desired_temperature }} °C</p>
+
+    <form action="/set_desired_temperature" method="post">
+      <label for="new_temperature">Set Desired Temperature (°C):</label>
+      <input type="number" name="new_temperature" step="0.1" required />
+      <button type="submit">Set</button>
+    </form>
+  </body>
+</html>
