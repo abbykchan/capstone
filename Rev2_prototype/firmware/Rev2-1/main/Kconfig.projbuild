@@ -5,20 +5,20 @@ menu "Pin Assignments"
     config GPIO_OPEN_BUTTON
         int "GPIO input open button pin"
         range ENV_GPIO_RANGE_MIN ENV_GPIO_OUT_RANGE_MAX
-        default 9
+        default 18
         help
             GPIO pin number to be used for the "open" button.
 
     config GPIO_CLOSE_BUTTON
         int "GPIO input close button pin"
         range ENV_GPIO_RANGE_MIN ENV_GPIO_OUT_RANGE_MAX
-        default 12
+        default 19
         help
             GPIO pin number to be used for the "close" button.
 
     config DEBOUNCE_INTERVAL
         int "Debounce interval in microseconds"
-        default 50000
+        default 10000
         help
             Time interval from previous button press in microseconds before which a button press is ignored
 
