@@ -6,8 +6,11 @@
 #include "freertos/queue.h"
 
 #include "esp_timer.h"
+#include "esp_log.h"
 #include "driver/gpio.h"
 #include "driver/i2c.h"
+
+#include "MLX90614.h"
 
 static volatile uint32_t gpio_num;
 static esp_timer_handle_t debounce_timer;
@@ -23,6 +26,15 @@ static void IRAM_ATTR gpio_isr_handler(void* arg)
 void debounce_timer_callback(void* arg) {
     // button_args* args = (button_args*) arg;
     printf("gpio_num: %lu, level: %d\n", gpio_num,  gpio_get_level(gpio_num));
+}
+
+static void temperature_poll_task(void* arg) {
+    uint16_t output = 0;
+    while (true) {
+        MLX_read_word(I2C_NUM_0, (RAM_ACCESS_MASK & OBJECT1_TEMP), &output);
+        printf("Temp: %f, success: %s\n", convert_to_degC(output), (MLX_output_error(output) == ESP_OK) ? "true" : "false");
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+    }
 }
 
 void app_main(void)
@@ -57,14 +69,12 @@ void app_main(void)
     gpio_config(&close_push_button_config);
     gpio_isr_handler_add(CONFIG_GPIO_CLOSE_BUTTON, gpio_isr_handler, (void*) CONFIG_GPIO_CLOSE_BUTTON);
     
-portTICK_PERIOD_MS
-
     const i2c_config_t ir_temp_sensor_config = {
         .mode = I2C_MODE_MASTER,
         .sda_io_num = 6,
         .scl_io_num = 7,
-        .sda_pullup_en = GPIO_PULLUP_ENABLE,
-        .scl_pullup_en = GPIO_PULLUP_ENABLE,
+        .sda_pullup_en = GPIO_PULLUP_DISABLE,
+        .scl_pullup_en = GPIO_PULLUP_DISABLE,
         .master.clk_speed = 100000,
     };
     i2c_param_config(I2C_NUM_0, &ir_temp_sensor_config);
@@ -72,6 +82,7 @@ portTICK_PERIOD_MS
 
 
 
+    xTaskCreate(temperature_poll_task, "temperature_poll_task", 2048, NULL, 10, NULL);
 }
 
 

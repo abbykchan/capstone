@@ -1,11 +1,14 @@
 #pragma once
 
+#include "esp_err.h"
+#include <stdint.h>
+
 #define DEFAULT_ADDRESS 0x5A
 #define ERROR_FLAG (1 << 15)
 
 typedef enum {
-    RAM_ACCESS_MASK     = 0b00011111, // bitwise OR with address to get the command
-    EEPROM_ACCESS_MASK  = 0b00111111, // bitwise OR with address to get the command
+    RAM_ACCESS_MASK     = 0b00011111, // bitwise AND with address to get the command
+    EEPROM_ACCESS_MASK  = 0b00111111, // bitwise AND with address to get the command
     READ_FLAGS          = 0b11110000,
     ENTER_SLEEP         = 0b11111111,
 } command_t;
@@ -33,13 +36,19 @@ typedef enum {
     OBJECT2_TEMP    = 0x08,
 } mlx_ram_address_t;
 
-typedef struct __attribute__((packed)) {
-    int a:2;
-    int b:6
-} mlx_;
+// typedef struct __attribute__((packed)) {
+//     int a:2;
+//     int b:6
+// } mlx_;
 
 
-void MLX_read_word();
+esp_err_t MLX_read_word();
+
+inline esp_err_t MLX_output_error(uint16_t result) {
+    return (ERROR_FLAG & result) ? (ESP_FAIL) : (ESP_OK);
+}
 
 // divide by 50 (deg K), subtract 273.15 (deg C)
-float convert_to_degC(uint16_t result);
+inline float convert_to_degC(uint16_t result) {
+    return (result / 50.0f) - 273.15f;
+}
