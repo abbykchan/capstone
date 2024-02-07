@@ -11,8 +11,8 @@
 #include "driver/i2c.h"
 #include "driver/mcpwm_prelude.h"
 #include "MLX90614.h"
-
-
+#include "BMP280.h"
+#include "BMP2/bmp2.h"
 
 // Please consult the datasheet of your servo before changing the following parameters
 #define SERVO_MIN_PULSEWIDTH_US 1000  // Minimum pulse width in microsecond
@@ -31,10 +31,9 @@ static inline uint32_t example_angle_to_compare(int angle)
               / (SERVO_MAX_DEGREE - SERVO_MIN_DEGREE) + SERVO_MIN_PULSEWIDTH_US;
 }
 
-
-
 static volatile uint32_t gpio_num;
 static esp_timer_handle_t debounce_timer = NULL;
+static esp_timer_handle_t pressure_timer = NULL;
 
 static mcpwm_timer_handle_t servo_timer = NULL;
 static mcpwm_oper_handle_t servo_oper = NULL;
@@ -72,13 +71,51 @@ void debounce_timer_callback(void* arg) {
 
 }
 
+struct bmp2_dev bmp280;
+struct bmp2_config conf;
+
 static void temperature_poll_task(void* arg) {
     uint16_t output = 0;
     while (true) {
-        MLX_read_word(I2C_NUM_0, (RAM_ACCESS_MASK & OBJECT1_TEMP), &output);
-        ESP_LOGI("TEMP", "Temp: %f, success: %s", convert_to_degC(output), (MLX_output_error(output) == ESP_OK) ? "true" : "false");
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        MLX_read_word(I2C_NUM_0, (MLX90614_RAM_ACCESS_MASK & MLX90614_RAM_OBJECT1_TEMP), &output);
+        ESP_LOGI("MLX90614", "Temp: %f, success: %s", convert_to_degC(output), (MLX_output_error(output) == ESP_OK) ? "true" : "false");
+
+        // ESP_LOGI("PRES", "Temp: %f, Pressure: %f", readTemperature(I2C_NUM_0), readPressure(I2C_NUM_0));
+        vTaskDelay(5000 / portTICK_PERIOD_MS);
     }
+}
+
+static void pressure_poll_task(void* arg) {
+    
+    uint32_t meas_time;
+
+    while (true) {
+        if (!esp_timer_is_active(pressure_timer)) {
+            bmp2_set_power_mode(BMP2_POWERMODE_FORCED, &conf, &bmp280);
+            bmp2_compute_meas_time(&meas_time, &conf, &bmp280);
+
+            esp_timer_start_once(pressure_timer, (uint64_t)meas_time + 1);
+            
+            vTaskDelay(5000 / portTICK_PERIOD_MS);
+        }
+    }
+}
+
+void pressure_timer_callback(void* arg) {
+    struct bmp2_status status;
+    struct bmp2_data comp_data;
+
+    bmp2_get_status(&status, &bmp280);
+    if (status.measuring) {
+        ESP_LOGE("BMP280", "Measurement not completed");
+    } else {
+        int8_t success = bmp2_get_sensor_data(&comp_data, &bmp280);
+        ESP_LOGI("BMP280", "Pressure: %lf, Temp: %lf, success: %s",
+                    comp_data.pressure,
+                    comp_data.temperature,
+                    (success == 0) ? "true" : "false");
+    }
+
 }
 
 void app_main(void)
@@ -125,6 +162,30 @@ void app_main(void)
     i2c_driver_install(I2C_NUM_0, ir_temp_sensor_config.mode, 0, 0, ESP_INTR_FLAG_LEVEL1);
 
     xTaskCreate(temperature_poll_task, "temperature_poll_task", 2048, NULL, 10, NULL);
+
+    const esp_timer_create_args_t pressure_timer_args = {
+        .callback = &pressure_timer_callback,
+        .name = "Pressure"
+    };
+    esp_timer_create(&pressure_timer_args, &pressure_timer);
+    
+    uint8_t* addr = malloc(sizeof(uint8_t));
+    *addr = BMP2_I2C_ADDR_SEC;
+    bmp280.read = bmp2_i2c_read;
+    bmp280.write = bmp2_i2c_write;
+    bmp280.intf = BMP2_I2C_INTF;
+    bmp280.intf_ptr = addr;
+    bmp280.delay_us = bmp2_delay_us;
+
+    bmp2_init(&bmp280);
+    bmp2_get_config(&conf, &bmp280);
+    conf.filter = BMP2_FILTER_OFF;
+    conf.os_mode = BMP2_OS_MODE_ULTRA_LOW_POWER;
+    conf.odr = BMP2_ODR_4000_MS;
+    bmp2_set_config(&conf, &bmp280);
+    
+    xTaskCreate(pressure_poll_task, "pressure_poll_task", 2048, NULL, 10, NULL);
+
 
     const mcpwm_timer_config_t servo_timer_config = {
         .group_id = 0,

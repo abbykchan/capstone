@@ -1,8 +1,6 @@
 #include "MLX90614.h"
 
 #include <freertos/FreeRTOS.h>
-#include <driver/i2c.h>
-
 #include "esp_log.h"
 
 static const uint8_t crc_table[] = {
@@ -41,12 +39,11 @@ uint8_t crc8(uint8_t *p, uint8_t len) {
     return crc & 0xFF;
 }
 
-
-esp_err_t MLX_read_word(i2c_port_t i2c_num, command_t command, uint16_t* output) {
+esp_err_t MLX_read_word(i2c_port_t i2c_num, uint8_t command, uint16_t* output) {
     uint8_t data[6] = {
-        (DEFAULT_ADDRESS << 1 | I2C_MASTER_WRITE),
+        (MLX90614_DEFAULT_ADDRESS << 1 | I2C_MASTER_WRITE),
         command,
-        DEFAULT_ADDRESS << 1 | I2C_MASTER_READ,
+        MLX90614_DEFAULT_ADDRESS << 1 | I2C_MASTER_READ,
     };
     
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
