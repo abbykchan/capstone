@@ -1,0 +1,15 @@
+dependencies:
+  espressif/esp_ot_cli_extension:
+    component_hash: 471c8b346cbdefde32bde48c68333ab6b3f8eb07db81afe3f16c0915012c65f0
+    source:
+      service_url: https://api.components.espressif.com/
+      type: service
+    version: 0.4.7
+  idf:
+    component_hash: null
+    source:
+      type: idf
+    version: 5.1.2
+manifest_hash: cc8558787306f1349f3a62be4c32b9fa103c61c2c38c2c9cbc994be348d38f3e
+target: esp32c6
+version: 1.0.0
