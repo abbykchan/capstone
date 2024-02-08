@@ -8,12 +8,48 @@
   </head>
   <body>
     <h1>Thermostat UI</h1>
+
     <p>Current Desired Temperature: {{ desired_temperature }} °C</p>
 
     <form action="/set_desired_temperature" method="post">
       <label for="new_temperature">Set Desired Temperature (°C):</label>
       <input type="number" name="new_temperature" step="0.1" required />
       <button type="submit">Set</button>
+    </form>
+
+    <hr />
+
+    <h2>Vent State</h2>
+    <p>Battery Level: {{ vent_battery_level }}%</p>
+    <p>Open State: {{ vent_open_state }}%</p>
+    <p>Current Temperature: {{ vent_current_temperature }} °C</p>
+
+    <!-- Use JavaScript to send a PATCH request -->
+    <script>
+      function sendPatchRequest() {
+        const formData = new FormData(document.getElementById("patchForm"));
+
+        fetch("/customize_vent_state", {
+          method: "PATCH",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => console.log(data))
+          .catch((error) => console.error("Error:", error));
+      }
+    </script>
+
+    <!-- Assume the vent can customize its state through a PATCH request -->
+    <form id="patchForm">
+      <label for="vent_battery_level">Set Battery Level (%):</label>
+      <input type="number" name="vent_battery_level" step="1" />
+      <label for="vent_open_state">Set Open State (%):</label>
+      <input type="number" name="vent_open_state" step="1" />
+      <label for="vent_current_temperature"
+        >Set Current Temperature (°C):</label
+      >
+      <input type="number" name="vent_current_temperature" step="0.1" />
+      <button type="button" onclick="sendPatchRequest()">Set</button>
     </form>
   </body>
 </html>
