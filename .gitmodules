@@ -1,0 +1,3 @@
+[submodule "Rev2_prototype/firmware/Rev2-1/lib/BMP2-Sensor-API"]
+	path = Rev2_prototype/firmware/Rev2-1/main/BMP2
+	url = git@github.com:boschsensortec/BMP2-Sensor-API.git
