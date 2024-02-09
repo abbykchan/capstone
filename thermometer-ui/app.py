@@ -12,7 +12,7 @@ current_temperature = 18.0
 vent_battery_level = 75.0
 
 # Servo rotation, calculated by hub and fetched by vent every 15 minutes
-servo_rotation = 0.0
+servo_rotation = 0
 
 
 @app.route('/')
