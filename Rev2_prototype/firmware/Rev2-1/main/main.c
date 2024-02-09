@@ -320,7 +320,6 @@ void app_main(void)
 
 
 
-
     esp_vfs_eventfd_config_t eventfd_config = {
         .max_fds = 3,
     };
