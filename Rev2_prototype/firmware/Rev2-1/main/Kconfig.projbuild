@@ -20,6 +20,24 @@ menu "Pin Assignments"
         int "Debounce interval in microseconds"
         default 10000
         help
-            Time interval from previous button press in microseconds before which a button press is ignored
+            Time interval from previous button press in microseconds before which a button press is ignored    
+endmenu
 
+menu "OpenThread CLI Example"
+
+  config OPENTHREAD_AUTO_START
+      bool 'Enable the automatic start mode.'
+      default False
+      help
+          If enabled, the Openthread Device will create or connect to thread network with pre-configured
+          network parameters automatically. Otherwise, user need to configure Thread via CLI command manually.
+endmenu
+
+menu "Example Configuration"
+config EXAMPLE_HTTP_ENDPOINT
+    string "Example HTTP Endpoint"
+    default "192.168.2.99"
+    
+    help
+        Target endpoint host-name for the example to use.
 endmenu

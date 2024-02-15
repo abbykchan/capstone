@@ -14,8 +14,6 @@
 #include "BMP280.h"
 #include "BMP2/bmp2.h"
 
-
-#include <stdio.h>
 #include <unistd.h>
 #include <string.h>
 
@@ -32,8 +30,6 @@
 #include "esp_ot_config.h"
 #include "esp_vfs_eventfd.h"
 #include "driver/uart.h"
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
 #include "hal/uart_types.h"
 #include "nvs_flash.h"
 #include "openthread/cli.h"
@@ -41,7 +37,13 @@
 #include "openthread/logging.h"
 #include "openthread/tasklet.h"
 
-#include "esp_http_client.h"
+#include "esp_http_client_task.h"
+
+#if CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
+#include "esp_ot_cli_extension.h"
+#endif // CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
+
+#define TAG "ot_esp_cli"
 
 // Please consult the datasheet of your servo before changing the following parameters
 #define SERVO_MIN_PULSEWIDTH_US 1000  // Minimum pulse width in microsecond
@@ -258,7 +260,7 @@ void app_main(void)
     i2c_param_config(I2C_NUM_0, &ir_temp_sensor_config);
     i2c_driver_install(I2C_NUM_0, ir_temp_sensor_config.mode, 0, 0, ESP_INTR_FLAG_LEVEL1);
 
-    xTaskCreate(temperature_poll_task, "temperature_poll_task", 2048, NULL, 10, NULL);
+    // xTaskCreate(temperature_poll_task, "temperature_poll_task", 2048, NULL, 10, NULL);
 
     const esp_timer_create_args_t pressure_timer_args = {
         .callback = &pressure_timer_callback,
@@ -281,7 +283,7 @@ void app_main(void)
     conf.odr = BMP2_ODR_4000_MS;
     bmp2_set_config(&conf, &bmp280);
     
-    xTaskCreate(pressure_poll_task, "pressure_poll_task", 2048, NULL, 10, NULL);
+    // xTaskCreate(pressure_poll_task, "pressure_poll_task", 2048, NULL, 10, NULL);
 
 
     const mcpwm_timer_config_t servo_timer_config = {
@@ -333,5 +335,19 @@ void app_main(void)
 
     xTaskCreate(ot_task_worker, "ot_cli_main", 10240, xTaskGetCurrentTaskHandle(), 5, NULL);  
     xTaskCreate(http_test_task, "http_test_task", 8192, NULL, 5, NULL);
-}
 
+    while (1) {
+        // Access the servo rotation value from http_http_client_task.c
+        int servo_rotation_result = get_servo_rotation_result();
+
+        if (servo_rotation_result = 0) {
+            ESP_LOGI(TAG, "Closing vent to %d", servo_rotation_result);
+            mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(SERVO_MIN_DEGREE));
+        } else if (servo_rotation_result = 90) {
+            ESP_LOGI(TAG, "Opening vent to %d", servo_rotation_result);
+            mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(SERVO_MAX_DEGREE));
+        }
+        
+        sleep(5);
+    }
+}
