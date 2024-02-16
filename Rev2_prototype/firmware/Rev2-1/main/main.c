@@ -109,10 +109,10 @@ static void temperature_poll_task(void* arg) {
     uint16_t output = 0;
     while (true) {
         MLX_read_word(I2C_NUM_0, (MLX90614_RAM_ACCESS_MASK & MLX90614_RAM_OBJECT1_TEMP), &output);
-        ESP_LOGI("MLX90614", "Temp: %f, success: %s", convert_to_degC(output), (MLX_output_error(output) == ESP_OK) ? "true" : "false");
+        // ESP_LOGI("MLX90614", "Temp: %f, success: %s", convert_to_degC(output), (MLX_output_error(output) == ESP_OK) ? "true" : "false");
 
         // ESP_LOGI("PRES", "Temp: %f, Pressure: %f", readTemperature(I2C_NUM_0), readPressure(I2C_NUM_0));
-        vTaskDelay(5000 / portTICK_PERIOD_MS);
+        // vTaskDelay(5000 / portTICK_PERIOD_MS);
     }
 }
 
@@ -334,20 +334,20 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_vfs_eventfd_register(&eventfd_config));
 
     xTaskCreate(ot_task_worker, "ot_cli_main", 10240, xTaskGetCurrentTaskHandle(), 5, NULL);  
-    xTaskCreate(http_test_task, "http_test_task", 8192, NULL, 5, NULL);
+    // xTaskCreate(http_test_task, "http_test_task", 8192, NULL, 5, NULL);
 
-    while (1) {
-        // Access the servo rotation value from http_http_client_task.c
-        int servo_rotation_result = get_servo_rotation_result();
+    // while (1) {
+    //     // Access the servo rotation value from http_http_client_task.c
+    //     int servo_rotation_result = get_servo_rotation_result();
 
-        if (servo_rotation_result = 0) {
-            ESP_LOGI(TAG, "Closing vent to %d", servo_rotation_result);
-            mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(SERVO_MIN_DEGREE));
-        } else if (servo_rotation_result = 90) {
-            ESP_LOGI(TAG, "Opening vent to %d", servo_rotation_result);
-            mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(SERVO_MAX_DEGREE));
-        }
+    //     if (servo_rotation_result == 0) {
+    //         ESP_LOGI(TAG, "Closing vent to %d", servo_rotation_result);
+    //         mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(SERVO_MIN_DEGREE));
+    //     } else if (servo_rotation_result == 90) {
+    //         ESP_LOGI(TAG, "Opening vent to %d", servo_rotation_result);
+    //         mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(SERVO_MAX_DEGREE));
+    //     }
         
-        sleep(5);
-    }
+    //     sleep(5);
+    // }
 }
