@@ -37,14 +37,6 @@
             <p>Vent: 97%</p>
           </div>
         </div>
-        <form action="/swap_ui" method="post">
-          <button
-            type="submit"
-            style="margin-left: auto; opacity: 0; cursor: default; height: 1rem"
-          >
-            Swap UI
-          </button>
-        </form>
       </div>
 
       <div class="controls">
@@ -58,7 +50,6 @@
             />
           </button>
         </form>
-        {% if alternate_ui == False %}
         <div class="temperatures">
           <h2 class="current_temperature">{{ current_temperature }}°</h2>
           {% if desired_temperature < current_temperature %}
@@ -75,12 +66,6 @@
           </p>
           {% endif %}
         </div>
-        {% else %}
-        <div class="temperatures">
-          <h2 class="current_temperature">{{ desired_temperature }}°</h2>
-          <p class="set_temperature">Now {{ current_temperature }}°</p>
-        </div>
-        {% endif %}
 
         <form action="/decrement_desired_temperature" method="post">
           <button type="submit">
@@ -94,6 +79,7 @@
         </form>
       </div>
 
+      <!-- DEBUG UI -->
       <!-- <div>
         <h2>Vent State</h2>
         <p>Battery Level: {{ vent_battery_level }}%</p>

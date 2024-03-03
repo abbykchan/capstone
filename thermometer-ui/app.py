@@ -19,11 +19,11 @@ alternate_ui = False
 
 @app.route('/')
 def home():
-    return render_template('index.html', desired_temperature=desired_temperature, current_temperature=current_temperature, vent_battery_level=vent_battery_level, servo_rotation=servo_rotation, alternate_ui=alternate_ui)
+    return render_template('index.html', desired_temperature=desired_temperature, current_temperature=current_temperature, vent_battery_level=vent_battery_level, servo_rotation=servo_rotation)
 
 @app.route('/living_room')
 def living_room():
-    return render_template('living_room.html', desired_temperature=desired_temperature, current_temperature=current_temperature, vent_battery_level=vent_battery_level, servo_rotation=servo_rotation, alternate_ui=alternate_ui)
+    return render_template('living_room.html', desired_temperature=desired_temperature, current_temperature=current_temperature, vent_battery_level=vent_battery_level, servo_rotation=servo_rotation)
 
 @app.route('/set_vent_state', methods=['POST'])
 def set_vent_state():
@@ -54,13 +54,6 @@ def decrement_desired_temperature():
 
     if (current_temperature >= desired_temperature):
         servo_rotation = 0
-
-    return redirect(url_for('living_room'))
-
-@app.route('/swap_ui', methods=['POST'])
-def swap_ui():
-    global alternate_ui
-    alternate_ui = not alternate_ui
 
     return redirect(url_for('living_room'))
 
