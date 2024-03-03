@@ -4,27 +4,69 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Thermostat UI</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='ventech_logo.png') }}"
+    />
+    <title>Ventech Thermostat</title>
   </head>
   <body>
-    <h1>Thermostat UI</h1>
-
-    <form action="/increment_desired_temperature" method="post">
-      <button type="submit">+</button>
-    </form>
-    <p>
-      Set room to:
-      <span id="desiredTemperature">{{ desired_temperature }}</span> °C
-    </p>
-    <form action="/decrement_desired_temperature" method="post">
-      <button type="submit">-</button>
-    </form>
-
-    <hr />
-
-    <h2>Vent State</h2>
-    <p>Battery Level: {{ vent_battery_level }}%</p>
-    <p>Current Temperature: {{ current_temperature }} °C</p>
-    <p>Servo Rotation: {{ servo_rotation }}°</p>
+    <div class="container">
+      <div>
+        <h1 class="title">Your Home</h1>
+        <div class="room-grid">
+          <a href="/living_room" class="room">
+            <h2 class="name">Living Room</h2>
+            <p class="temperature">{{ current_temperature }}°</p>
+            {% if desired_temperature < current_temperature %}
+            <p class="description cooling">
+              Cooling to {{ desired_temperature }}°
+            </p>
+            {% elif desired_temperature == current_temperature %}
+            <p class="description">Set to {{ desired_temperature }}°</p>
+            {% else %}
+            <p class="description heating">
+              Heating to {{ desired_temperature }}°
+            </p>
+            {% endif %}
+          </a>
+          <a class="room">
+            <h2 class="name">Dining Room</h2>
+            <p class="temperature">18°</p>
+            <p class="description">Set to 18°</p>
+          </a>
+          <a class="room">
+            <h2 class="name">Bedroom 1</h2>
+            <p class="temperature">19°</p>
+            <p class="description">Set to 18°</p>
+          </a>
+          <a class="room">
+            <h2 class="name">Bedroom 2</h2>
+            <p class="temperature">23°</p>
+            <p class="description heating">Heating to 26°</p>
+          </a>
+          <a class="room">
+            <h2 class="name">Kitchen</h2>
+            <p class="temperature">18°</p>
+            <p class="description cooling">Cooling to 17°</p>
+          </a>
+          <a class="room">
+            <h2 class="name">Bathroom</h2>
+            <p class="temperature">19°</p>
+            <p class="description">Set to 18°</p>
+          </a>
+        </div>
+      </div>
+      <img
+        src="{{ url_for('static', filename='ventech_wordmark.png') }}"
+        alt="Ventech Logo"
+        class="ventech_logo"
+      />
+    </div>
   </body>
 </html>

@@ -3,10 +3,10 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for
 app = Flask(__name__)
 
 # Desired temperature, updated by user
-desired_temperature = 20.0
+desired_temperature = 20
 
 # Temperature, updated every minute by vent
-current_temperature = 18.0 
+current_temperature = 18
 
 # Battery level, updated every minute by vent
 vent_battery_level = 75.0
@@ -14,10 +14,16 @@ vent_battery_level = 75.0
 # Servo rotation, calculated by hub and fetched by vent every 15 minutes
 servo_rotation = 90
 
+alternate_ui = False
+
 
 @app.route('/')
 def home():
-    return render_template('index.html', desired_temperature=desired_temperature, current_temperature=current_temperature, vent_battery_level=vent_battery_level, servo_rotation=servo_rotation)
+    return render_template('index.html', desired_temperature=desired_temperature, current_temperature=current_temperature, vent_battery_level=vent_battery_level, servo_rotation=servo_rotation, alternate_ui=alternate_ui)
+
+@app.route('/living_room')
+def living_room():
+    return render_template('living_room.html', desired_temperature=desired_temperature, current_temperature=current_temperature, vent_battery_level=vent_battery_level, servo_rotation=servo_rotation, alternate_ui=alternate_ui)
 
 @app.route('/set_vent_state', methods=['POST'])
 def set_vent_state():
@@ -39,7 +45,7 @@ def increment_desired_temperature():
     if (current_temperature < desired_temperature):
         servo_rotation = 90
 
-    return redirect(url_for('home'))
+    return redirect(url_for('living_room'))
 
 @app.route('/decrement_desired_temperature', methods=['POST'])
 def decrement_desired_temperature():
@@ -49,11 +55,19 @@ def decrement_desired_temperature():
     if (current_temperature >= desired_temperature):
         servo_rotation = 0
 
-    return redirect(url_for('home'))
+    return redirect(url_for('living_room'))
+
+@app.route('/swap_ui', methods=['POST'])
+def swap_ui():
+    global alternate_ui
+    alternate_ui = not alternate_ui
+
+    return redirect(url_for('living_room'))
 
 @app.route('/get_servo_rotation', methods=['GET'])
 def get_servo_rotation():
     return jsonify({'servo_rotation': servo_rotation})
 
 if __name__ == '__main__':
-    app.run(debug=True, host="::", port=8080)
+    # app.run(debug=True, host="::", port=8080)
+    app.run(debug=True, port=8080)

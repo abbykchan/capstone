@@ -1,0 +1,201 @@
+html {
+  background-color: #1a1a1a;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a {
+  margin: 0;
+  padding: 0;
+
+  color: #1a1a1a;
+  font-family: "Proxima Nova";
+}
+
+a {
+  text-decoration: none;
+}
+
+button,
+input[type="button"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: none;
+  cursor: pointer;
+  outline: none;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+}
+
+body {
+  /* Phone Mockup */
+  background: #f6f2e9;
+  width: 375px;
+  height: 667px;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  border-radius: 1rem;
+}
+
+.container {
+  padding: 32px 24px;
+  height: calc(100% - 64px);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.title {
+  padding-bottom: 1rem;
+}
+
+.heating {
+  color: #e46d3f !important;
+}
+
+.set_to {
+  color: #666666 !important;
+}
+
+.cooling {
+  color: #008ebb !important;
+}
+
+.room-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.room {
+  display: flex;
+  padding: 20px 24px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  border-radius: 16px;
+  background: #fff;
+
+  /* Initial Drop Shadow */
+  box-shadow: 0px 4px 16px 2px rgba(219, 212, 195, 0.5);
+
+  /* Transition */
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.room:hover {
+  /* Darker Drop Shadow */
+  box-shadow: 0px 8px 24px 4px rgba(219, 212, 195, 1);
+
+  /* Move Up */
+  transform: translateY(-4px);
+}
+
+.room .name {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.room .temperature {
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+}
+
+.room .description {
+  color: #666666;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%; /* 16px */
+}
+
+.ventech_logo {
+  width: 160px;
+  height: 40px;
+  align-self: center;
+}
+
+.header {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header .arrow {
+  margin-top: 4px;
+}
+
+.header .info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.header .battery-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.controls {
+  align-self: center;
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+}
+
+.controls .temperatures {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.controls .current_temperature {
+  color: #03245b;
+  text-align: center;
+  font-family: "Proxima Nova";
+  font-size: 96px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%; /* 96px */
+}
+
+.controls .set_temperature {
+  color: #000;
+  text-align: center;
+  font-family: "Proxima Nova";
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%; /* 40px */
+}
