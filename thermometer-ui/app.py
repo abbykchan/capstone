@@ -62,5 +62,5 @@ def get_servo_rotation():
     return jsonify({'servo_rotation': servo_rotation})
 
 if __name__ == '__main__':
-    # app.run(debug=True, host="::", port=8080)
-    app.run(debug=True, port=8080)
+    app.run(debug=True, host="::", port=8080)
+    # app.run(debug=True, port=8080)
