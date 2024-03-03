@@ -22,8 +22,6 @@
 #include "esp_crt_bundle.h"
 #endif
 
-static int servo_rotation_result = 0;
-
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_system.h"
@@ -33,6 +31,8 @@ static int servo_rotation_result = 0;
 #define MAX_HTTP_RECV_BUFFER 512
 #define MAX_HTTP_OUTPUT_BUFFER 2048
 static const char *TAG = "HTTP_CLIENT";
+
+static int servo_rotation_result = 0;
 
 /* Root cert for howsmyssl.com, taken from howsmyssl_com_root_cert.pem
 
@@ -148,7 +148,7 @@ esp_err_t _http_event_handler(esp_http_client_event_t *evt)
     return ESP_OK;
 }
 
-static void http_rest_with_url(void)
+int http_rest(void)
 {
     printf("Requesting from UI\n");
     // Declare local_response_buffer with size (MAX_HTTP_OUTPUT_BUFFER + 1) to prevent out of bound access when
@@ -199,19 +199,22 @@ static void http_rest_with_url(void)
     // }
 
     esp_http_client_cleanup(client);
+
+    return 90;
 }
 
-int get_servo_rotation_result() {
-    return servo_rotation_result;
+int get_servo_rotation_result()
+{
+  return servo_rotation_result;
 }
 
 void http_test_task(void *pvParameters)
 {
-    sleep(10);
+    sleep(1);
     while (1) {
-        http_rest_with_url();
+        http_rest();
         ESP_LOGI(TAG, "Servo Rotation Value: %d", servo_rotation_result);
-        sleep(5);
+        sleep(3);
     }
     ESP_LOGI(TAG, "Finish http example");
 #if !CONFIG_IDF_TARGET_LINUX

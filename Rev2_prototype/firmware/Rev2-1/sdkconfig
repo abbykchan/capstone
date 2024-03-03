@@ -486,7 +486,7 @@ CONFIG_OPENTHREAD_AUTO_START=y
 #
 # Example Configuration
 #
-CONFIG_EXAMPLE_HTTP_ENDPOINT="192.168.2.99"
+CONFIG_EXAMPLE_HTTP_ENDPOINT="10.0.0.158"
 # end of Example Configuration
 
 #

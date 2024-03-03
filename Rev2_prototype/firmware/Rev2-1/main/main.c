@@ -334,20 +334,33 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_vfs_eventfd_register(&eventfd_config));
 
     xTaskCreate(ot_task_worker, "ot_cli_main", 10240, xTaskGetCurrentTaskHandle(), 5, NULL);  
-    // xTaskCreate(http_test_task, "http_test_task", 8192, NULL, 5, NULL);
+    xTaskCreate(http_test_task, "http_test_task", 8192, NULL, 5, NULL);
 
-    // while (1) {
-    //     // Access the servo rotation value from http_http_client_task.c
-    //     int servo_rotation_result = get_servo_rotation_result();
-
-    //     if (servo_rotation_result == 0) {
-    //         ESP_LOGI(TAG, "Closing vent to %d", servo_rotation_result);
-    //         mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(SERVO_MIN_DEGREE));
-    //     } else if (servo_rotation_result == 90) {
-    //         ESP_LOGI(TAG, "Opening vent to %d", servo_rotation_result);
-    //         mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(SERVO_MAX_DEGREE));
-    //     }
-        
-    //     sleep(5);
+    // while(1) {
+    //   sleep(2);
+    //   ESP_LOGI(TAG, "Closing vent to 0");
+    //   mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(SERVO_MIN_DEGREE));
+    //   sleep(2);
+    //   ESP_LOGI(TAG, "Opening vent to 90");
+    //   mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(SERVO_MAX_DEGREE));
     // }
+
+    // sleep(3);
+    // // int servo_rotation = http_rest();
+    // // ESP_LOGI(TAG, "Closing vent to %d", servo_rotation);
+
+    while (1) {
+        // Access the servo rotation value from http_http_client_task.c
+        int servo_rotation_result = get_servo_rotation_result();
+
+        if (servo_rotation_result == 0) {
+            ESP_LOGI(TAG, "Closing vent to %d", servo_rotation_result);
+            mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(SERVO_MIN_DEGREE));
+        } else if (servo_rotation_result == 90) {
+            ESP_LOGI(TAG, "Opening vent to %d", servo_rotation_result);
+            mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(SERVO_MAX_DEGREE));
+        }
+        
+        sleep(3);
+    }
 }
