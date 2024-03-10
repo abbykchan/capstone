@@ -32,8 +32,6 @@
 #define MAX_HTTP_OUTPUT_BUFFER 2048
 static const char *TAG = "HTTP_CLIENT";
 
-static int servo_rotation_result = 0;
-
 /* Root cert for howsmyssl.com, taken from howsmyssl_com_root_cert.pem
 
    The PEM file was extracted from the output of this command:
@@ -69,12 +67,6 @@ esp_err_t _http_event_handler(esp_http_client_event_t *evt)
             break;
         case HTTP_EVENT_ON_DATA:
             ESP_LOGD(TAG, "HTTP_EVENT_ON_DATA, len=%d", evt->data_len);
-
-            if (sscanf(evt->data, "%*[^0-9]%d", &servo_rotation_result) != 1) {
-                ESP_LOGE(TAG, "Failed to parse servo rotation value");
-            } else {
-                ESP_LOGI(TAG, "Servo Rotation Value: %d", servo_rotation_result);
-            }
 
             // Clean the buffer in case of a new request
             if (output_len == 0 && evt->user_data) {
@@ -118,7 +110,7 @@ esp_err_t _http_event_handler(esp_http_client_event_t *evt)
             ESP_LOGD(TAG, "HTTP_EVENT_ON_FINISH");
             if (output_buffer != NULL) {
                 // Response is accumulated in output_buffer. Uncomment the below line to print the accumulated response
-                // ESP_LOG_BUFFER_HEX(TAG, output_buffer, output_len);
+                ESP_LOG_BUFFER_HEX(TAG, output_buffer, output_len);
                 free(output_buffer);
                 output_buffer = NULL;
             }
@@ -148,11 +140,12 @@ esp_err_t _http_event_handler(esp_http_client_event_t *evt)
     return ESP_OK;
 }
 
-int http_rest(void)
+int perform_http_transactions(float battery, float temperature)
 {
-    printf("Requesting from UI\n");
+    ESP_LOGI(TAG, "Requesting from UI\n");
     // Declare local_response_buffer with size (MAX_HTTP_OUTPUT_BUFFER + 1) to prevent out of bound access when
     // it is used by functions like strlen(). The buffer should only be used upto size MAX_HTTP_OUTPUT_BUFFER
+    int servo_rotation_result = 0;
     char local_response_buffer[MAX_HTTP_OUTPUT_BUFFER + 1] = {0};
     /**
      * NOTE: All the configuration parameters for http_client must be spefied either in URL or as host and path parameters.
@@ -181,43 +174,33 @@ int http_rest(void)
     } else {
         ESP_LOGE(TAG, "HTTP GET request failed: %s", esp_err_to_name(err));
     }
-    ESP_LOG_BUFFER_HEX(TAG, local_response_buffer, strlen(local_response_buffer));
+    
+    if (sscanf(local_response_buffer, "%*[^0-9]%d", &servo_rotation_result) != 1) {
+        ESP_LOGE(TAG, "Failed to parse servo rotation value");
+    } else {
+        ESP_LOGI(TAG, "Servo Rotation Value: %d", servo_rotation_result);
+    }
+
 
     // // POST
-    // const char *post_data = "{\"field1\":\"value1\"}";
-    // esp_http_client_set_url(client, "http://"CONFIG_EXAMPLE_HTTP_ENDPOINT"/post");
-    // esp_http_client_set_method(client, HTTP_METHOD_POST);
-    // esp_http_client_set_header(client, "Content-Type", "application/json");
-    // esp_http_client_set_post_field(client, post_data, strlen(post_data));
-    // err = esp_http_client_perform(client);
-    // if (err == ESP_OK) {
-    //     ESP_LOGI(TAG, "HTTP POST Status = %d, content_length = %"PRId64,
-    //             esp_http_client_get_status_code(client),
-    //             esp_http_client_get_content_length(client));
-    // } else {
-    //     ESP_LOGE(TAG, "HTTP POST request failed: %s", esp_err_to_name(err));
-    // }
+    const char post_data[256];
+    sprintf(post_data, "{\"vent_battery_level\":%.1f,\"current_temperature\":%.1f}", battery, temperature);
+    ESP_LOGI(TAG, "%s", post_data);
+    
+    esp_http_client_set_url(client, "http://"CONFIG_EXAMPLE_HTTP_ENDPOINT":8080/set_vent_state");
+    esp_http_client_set_method(client, HTTP_METHOD_POST);
+    esp_http_client_set_header(client, "Content-Type", "application/json");
+    esp_http_client_set_post_field(client, post_data, strlen(post_data));
+    err = esp_http_client_perform(client);
+    if (err == ESP_OK) {
+        ESP_LOGI(TAG, "HTTP POST Status = %d, content_length = %"PRId64,
+                esp_http_client_get_status_code(client),
+                esp_http_client_get_content_length(client));
+    } else {
+        ESP_LOGE(TAG, "HTTP POST request failed: %s", esp_err_to_name(err));
+    }
 
     esp_http_client_cleanup(client);
 
-    return 90;
-}
-
-int get_servo_rotation_result()
-{
-  return servo_rotation_result;
-}
-
-void http_test_task(void *pvParameters)
-{
-    sleep(1);
-    while (1) {
-        http_rest();
-        ESP_LOGI(TAG, "Servo Rotation Value: %d", servo_rotation_result);
-        sleep(3);
-    }
-    ESP_LOGI(TAG, "Finish http example");
-#if !CONFIG_IDF_TARGET_LINUX
-    vTaskDelete(NULL);
-#endif
+    return servo_rotation_result;
 }

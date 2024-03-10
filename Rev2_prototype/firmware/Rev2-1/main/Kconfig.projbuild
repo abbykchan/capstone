@@ -23,6 +23,15 @@ menu "Pin Assignments"
             Time interval from previous button press in microseconds before which a button press is ignored    
 endmenu
 
+menu "Sleep Configuration"
+    config TIMER_WAKEUP_TIME_US
+        int "Sleep timer wakeup time in us"
+        default 60000000
+        help
+            The duration that the device will sleep between measurements or communication
+
+endmenu
+
 menu "OpenThread CLI Example"
 
   config OPENTHREAD_AUTO_START

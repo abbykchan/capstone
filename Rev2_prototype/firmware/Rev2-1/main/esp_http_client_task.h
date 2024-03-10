@@ -1,6 +1,12 @@
 #ifndef ESP_HTTP_CLIENT_TASK_H
 #define ESP_HTTP_CLIENT_TASK_H
-  void http_test_task(void *pvParameters);
-  int get_servo_rotation_result();
-  int http_rest(void);
+
+/**
+ * Send and receive all network information
+ * @param temp      ?
+ * @param pressure  ?
+ * @returns Desired Servo angle
+*/
+int perform_http_transactions(float battery, float temperature);
+
 #endif

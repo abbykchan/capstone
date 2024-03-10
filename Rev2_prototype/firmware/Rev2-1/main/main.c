@@ -9,7 +9,8 @@
 #include "esp_log.h"
 #include "driver/gpio.h"
 #include "driver/i2c.h"
-#include "driver/mcpwm_prelude.h"
+
+#include "servo.h"
 #include "MLX90614.h"
 #include "BMP280.h"
 #include "BMP2/bmp2.h"
@@ -19,6 +20,8 @@
 
 #include "esp_err.h"
 #include "esp_event.h"
+#include "esp_sleep.h"
+#include "esp_pm.h"
 #include "esp_log.h"
 #include "esp_netif.h"
 #include "esp_netif_types.h"
@@ -43,35 +46,9 @@
 #include "esp_ot_cli_extension.h"
 #endif // CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
 
-#define TAG "ot_esp_cli"
-
-// Please consult the datasheet of your servo before changing the following parameters
-#define SERVO_MIN_PULSEWIDTH_US 1000  // Minimum pulse width in microsecond
-#define SERVO_MAX_PULSEWIDTH_US 2000  // Maximum pulse width in microsecond
-#define SERVO_MIN_DEGREE        0   // Minimum angle
-#define SERVO_MAX_DEGREE        90    // Maximum angle
-
-#define SERVO_PULSE_GPIO             14        // GPIO connects to the PWM signal line
-#define SERVO_TIMEBASE_RESOLUTION_HZ 1000000  // 1MHz, 1us per tick
-#define SERVO_TIMEBASE_PERIOD        20000    // 20000 ticks, 20ms
-
-static inline uint32_t example_angle_to_compare(int angle)
-{
-    return (angle - SERVO_MIN_DEGREE) *
-             (SERVO_MAX_PULSEWIDTH_US - SERVO_MIN_PULSEWIDTH_US)
-              / (SERVO_MAX_DEGREE - SERVO_MIN_DEGREE) + SERVO_MIN_PULSEWIDTH_US;
-}
-
 static volatile uint32_t gpio_num;
 static esp_timer_handle_t debounce_timer = NULL;
 static esp_timer_handle_t pressure_timer = NULL;
-
-static mcpwm_timer_handle_t servo_timer = NULL;
-static mcpwm_oper_handle_t servo_oper = NULL;
-static mcpwm_cmpr_handle_t servo_comparator = NULL;
-static mcpwm_gen_handle_t servo_generator = NULL;
-
-
 
 static void IRAM_ATTR gpio_isr_handler(void* arg)
 {
@@ -90,10 +67,10 @@ void debounce_timer_callback(void* arg) {
         switch (gpio_num)
         {
         case CONFIG_GPIO_CLOSE_BUTTON:
-            mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(SERVO_MIN_DEGREE));
+            set_servo_angle(SERVO_MIN_DEGREE);
             break;
         case CONFIG_GPIO_OPEN_BUTTON:
-            mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(SERVO_MAX_DEGREE));
+            set_servo_angle(SERVO_MAX_DEGREE);
             break;
         default:
             break;
@@ -109,10 +86,10 @@ static void temperature_poll_task(void* arg) {
     uint16_t output = 0;
     while (true) {
         MLX_read_word(I2C_NUM_0, (MLX90614_RAM_ACCESS_MASK & MLX90614_RAM_OBJECT1_TEMP), &output);
-        // ESP_LOGI("MLX90614", "Temp: %f, success: %s", convert_to_degC(output), (MLX_output_error(output) == ESP_OK) ? "true" : "false");
+        ESP_LOGI("MLX90614", "Temp: %f, success: %s", convert_to_degC(output), (MLX_output_error(output) == ESP_OK) ? "true" : "false");
 
         // ESP_LOGI("PRES", "Temp: %f, Pressure: %f", readTemperature(I2C_NUM_0), readPressure(I2C_NUM_0));
-        // vTaskDelay(5000 / portTICK_PERIOD_MS);
+        vTaskDelay(5000 / portTICK_PERIOD_MS);
     }
 }
 
@@ -149,10 +126,6 @@ void pressure_timer_callback(void* arg) {
 
 }
 
-
-
-
-
 static esp_netif_t *init_openthread_netif(const esp_openthread_platform_config_t *config)
 {
     esp_netif_config_t cfg = ESP_NETIF_DEFAULT_OPENTHREAD();
@@ -162,60 +135,61 @@ static esp_netif_t *init_openthread_netif(const esp_openthread_platform_config_t
 
     return netif;
 }
-
-static void ot_task_worker(void *aContext)
-{
-    esp_openthread_platform_config_t config = {
-        .radio_config = ESP_OPENTHREAD_DEFAULT_RADIO_CONFIG(),
-        .host_config = ESP_OPENTHREAD_DEFAULT_HOST_CONFIG(),
-        .port_config = ESP_OPENTHREAD_DEFAULT_PORT_CONFIG(),
-    };
-
-    // Initialize the OpenThread stack
-    ESP_ERROR_CHECK(esp_openthread_init(&config));
-
-#if CONFIG_OPENTHREAD_LOG_LEVEL_DYNAMIC
-    // The OpenThread log level directly matches ESP log level
-    (void)otLoggingSetLevel(CONFIG_LOG_DEFAULT_LEVEL);
-#endif
-    // Initialize the OpenThread cli
-#if CONFIG_OPENTHREAD_CLI
-    esp_openthread_cli_init();
-#endif
-
-    esp_netif_t *openthread_netif;
-    // Initialize the esp_netif bindings
-    openthread_netif = init_openthread_netif(&config);
-    esp_netif_set_default_netif(openthread_netif);
-
-#if CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
-    esp_cli_custom_command_init();
-#endif // CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
-
-    // Run the main loop
-#if CONFIG_OPENTHREAD_CLI
-    esp_openthread_cli_create_task();
-#endif
-
-#if CONFIG_OPENTHREAD_AUTO_START
-    otOperationalDatasetTlvs dataset;
-    otError error = otDatasetGetActiveTlvs(esp_openthread_get_instance(), &dataset);
-    ESP_ERROR_CHECK(esp_openthread_auto_start((error == OT_ERROR_NONE) ? &dataset : NULL));
-#endif
+static void start_openthread(void* arg) {
     esp_openthread_launch_mainloop();
-
-    // Clean up
-    esp_netif_destroy(openthread_netif);
-    esp_openthread_netif_glue_deinit();
-
-    esp_vfs_eventfd_unregister();
-    vTaskDelete(NULL);
 }
 
+static void main_loop(void *arg) {
+
+    uint16_t ir_output = 0;
+    int prev_servo_rotation_result = 0;
+    int servo_rotation_result = 0;
+    set_servo_angle(prev_servo_rotation_result);
+    
+
+    // It might be possible to avoid manually entering sleep states
+    while (true) {
+        // Perform Measurements 
+        MLX_read_word(I2C_NUM_0, (MLX90614_RAM_ACCESS_MASK & MLX90614_RAM_OBJECT1_TEMP), &ir_output);
+        ESP_LOGI("MLX90614", "Temp: %f, success: %s", convert_to_degC(ir_output), (MLX_output_error(ir_output) == ESP_OK) ? "true" : "false");
+        //TODO: pressure measurement
+
+        servo_rotation_result = perform_http_transactions(50.0, convert_to_degC(ir_output));
 
 
+        if (servo_rotation_result != prev_servo_rotation_result) {
+            ESP_LOGI("ot_esp_cli", "Moving vent to %d", servo_rotation_result);
+            set_servo_angle(servo_rotation_result);
+            prev_servo_rotation_result = servo_rotation_result;
+        }
+        
+        vTaskDelay(5 * 1000 / portTICK_PERIOD_MS);
+    }
 
+        
+    // measure
+    // if time since last communication > 10min
+    //     active (enable modem)
+    //     communicate data
+    //     modem sleep (disable modem)
+    //     move servo
+    // light_sleep 1 min
+    // delay 1 min
+    
+    
+    //     esp_light_sleep_start();
+    //     switch (esp_sleep_get_wakeup_cause()) {
+    //         case ESP_SLEEP_WAKEUP_TIMER:
+    //             ESP_LOGI("Wakeup", "timer_event");
+    //             break;
+    //         case ESP_SLEEP_WAKEUP_GPIO:
+    //             ESP_LOGI("Wakeup", "gpio_event");
+    //             break;
+    //         default:
+    //             ESP_LOGI("Wakeup", "default");
+    //             break;
 
+}
 
 void app_main(void)
 {
@@ -224,10 +198,10 @@ void app_main(void)
         .callback = &debounce_timer_callback,
         .name = "Debounce"
     };
-    esp_timer_create(&debounce_timer_args, &debounce_timer);
+    ESP_ERROR_CHECK(esp_timer_create(&debounce_timer_args, &debounce_timer));
     
     // Setup GPIOs & ISRs for pushbuttons
-    gpio_install_isr_service(ESP_INTR_FLAG_LEVEL1);
+    ESP_ERROR_CHECK(gpio_install_isr_service(ESP_INTR_FLAG_LEVEL1));
 
     const gpio_config_t open_push_button_config = {
         .intr_type = GPIO_INTR_ANYEDGE,
@@ -236,8 +210,8 @@ void app_main(void)
         .mode = GPIO_MODE_INPUT,
         .pin_bit_mask = 1ULL<<CONFIG_GPIO_OPEN_BUTTON
     };
-    gpio_config(&open_push_button_config);
-    gpio_isr_handler_add(CONFIG_GPIO_OPEN_BUTTON, gpio_isr_handler, (void*) CONFIG_GPIO_OPEN_BUTTON);
+    ESP_ERROR_CHECK(gpio_config(&open_push_button_config));
+    ESP_ERROR_CHECK(gpio_isr_handler_add(CONFIG_GPIO_OPEN_BUTTON, gpio_isr_handler, (void*) CONFIG_GPIO_OPEN_BUTTON));
 
     const gpio_config_t close_push_button_config = {
         .intr_type = GPIO_INTR_ANYEDGE,
@@ -246,28 +220,31 @@ void app_main(void)
         .mode = GPIO_MODE_INPUT,
         .pin_bit_mask = 1ULL<<CONFIG_GPIO_CLOSE_BUTTON
     };
-    gpio_config(&close_push_button_config);
-    gpio_isr_handler_add(CONFIG_GPIO_CLOSE_BUTTON, gpio_isr_handler, (void*) CONFIG_GPIO_CLOSE_BUTTON);
+    ESP_ERROR_CHECK(gpio_config(&close_push_button_config));
+    ESP_ERROR_CHECK(gpio_isr_handler_add(CONFIG_GPIO_CLOSE_BUTTON, gpio_isr_handler, (void*) CONFIG_GPIO_CLOSE_BUTTON));
     
+    // Setup I2C for Temp & Pressure sensors
     const i2c_config_t ir_temp_sensor_config = {
         .mode = I2C_MODE_MASTER,
         .sda_io_num = 6,
         .scl_io_num = 7,
-        .sda_pullup_en = GPIO_PULLUP_DISABLE,
-        .scl_pullup_en = GPIO_PULLUP_DISABLE,
+        .sda_pullup_en = GPIO_PULLUP_ENABLE,
+        .scl_pullup_en = GPIO_PULLUP_ENABLE,
         .master.clk_speed = 100000,
     };
-    i2c_param_config(I2C_NUM_0, &ir_temp_sensor_config);
-    i2c_driver_install(I2C_NUM_0, ir_temp_sensor_config.mode, 0, 0, ESP_INTR_FLAG_LEVEL1);
+    ESP_ERROR_CHECK(i2c_param_config(I2C_NUM_0, &ir_temp_sensor_config));
+    ESP_ERROR_CHECK(i2c_driver_install(I2C_NUM_0, ir_temp_sensor_config.mode, 0, 0, ESP_INTR_FLAG_LEVEL1));
 
-    // xTaskCreate(temperature_poll_task, "temperature_poll_task", 2048, NULL, 10, NULL);
+    xTaskCreate(temperature_poll_task, "temperature_poll_task", 2048, NULL, 10, NULL);
 
+    // Setup pressure measurement delay timer callback 
     const esp_timer_create_args_t pressure_timer_args = {
         .callback = &pressure_timer_callback,
         .name = "Pressure"
     };
-    esp_timer_create(&pressure_timer_args, &pressure_timer);
+    ESP_ERROR_CHECK(esp_timer_create(&pressure_timer_args, &pressure_timer));
     
+    // Initialize pressure sensor driver
     uint8_t* addr = malloc(sizeof(uint8_t));
     *addr = BMP2_I2C_ADDR_SEC;
     bmp280.read = bmp2_i2c_read;
@@ -279,13 +256,13 @@ void app_main(void)
     bmp2_init(&bmp280);
     bmp2_get_config(&conf, &bmp280);
     conf.filter = BMP2_FILTER_OFF;
-    conf.os_mode = BMP2_OS_MODE_ULTRA_LOW_POWER;
+    conf.os_mode = BMP2_OS_MODE_ULTRA_HIGH_RESOLUTION;
     conf.odr = BMP2_ODR_4000_MS;
     bmp2_set_config(&conf, &bmp280);
     
-    // xTaskCreate(pressure_poll_task, "pressure_poll_task", 2048, NULL, 10, NULL);
+    xTaskCreate(pressure_poll_task, "pressure_poll_task", 2048, NULL, 10, NULL);
 
-
+    // Setup Servo
     const mcpwm_timer_config_t servo_timer_config = {
         .group_id = 0,
         .clk_src = MCPWM_TIMER_CLK_SRC_DEFAULT,
@@ -302,65 +279,60 @@ void app_main(void)
     mcpwm_generator_config_t servo_generator_config = {
         .gen_gpio_num = SERVO_PULSE_GPIO,
     };
+    ESP_ERROR_CHECK(init_servo(servo_timer_config, servo_operator_config, servo_comparator_config, servo_generator_config));
 
-    ESP_ERROR_CHECK(mcpwm_new_timer(&servo_timer_config, &servo_timer));
-    ESP_ERROR_CHECK(mcpwm_new_operator(&servo_operator_config, &servo_oper));
-    ESP_ERROR_CHECK(mcpwm_operator_connect_timer(servo_oper, servo_timer));
-    ESP_ERROR_CHECK(mcpwm_new_comparator(servo_oper, &servo_comparator_config, &servo_comparator));
-    ESP_ERROR_CHECK(mcpwm_new_generator(servo_oper, &servo_generator_config, &servo_generator));
-
-    // set the initial compare value, so that the servo will spin to the center position
-    ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(0)));
-
-    // go high on counter empty
-    ESP_ERROR_CHECK(mcpwm_generator_set_action_on_timer_event(servo_generator,
-                                                              MCPWM_GEN_TIMER_EVENT_ACTION(MCPWM_TIMER_DIRECTION_UP, MCPWM_TIMER_EVENT_EMPTY, MCPWM_GEN_ACTION_HIGH)));
-    // go low on compare threshold
-    ESP_ERROR_CHECK(mcpwm_generator_set_action_on_compare_event(servo_generator,
-                                                                MCPWM_GEN_COMPARE_EVENT_ACTION(MCPWM_TIMER_DIRECTION_UP, servo_comparator, MCPWM_GEN_ACTION_LOW)));
-    ESP_ERROR_CHECK(mcpwm_timer_enable(servo_timer));
-    ESP_ERROR_CHECK(mcpwm_timer_start_stop(servo_timer, MCPWM_TIMER_START_NO_STOP));
-
-
-
-
+    // Setup Thread network & HTTP requests
     esp_vfs_eventfd_config_t eventfd_config = {
         .max_fds = 3,
     };
 
+    // Setup power management
+    int cur_cpu_freq_mhz = CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ;
+    esp_pm_config_t pm_config = {
+        .max_freq_mhz = cur_cpu_freq_mhz,
+        .min_freq_mhz = cur_cpu_freq_mhz,
+        .light_sleep_enable = true
+    };
+    ESP_ERROR_CHECK(esp_pm_configure(&pm_config));
+    ESP_ERROR_CHECK(gpio_wakeup_enable(CONFIG_GPIO_CLOSE_BUTTON, GPIO_INTR_LOW_LEVEL));
+    ESP_ERROR_CHECK(gpio_wakeup_enable(CONFIG_GPIO_OPEN_BUTTON, GPIO_INTR_LOW_LEVEL));
+    ESP_ERROR_CHECK(esp_sleep_enable_gpio_wakeup());
+    ESP_ERROR_CHECK(esp_sleep_enable_timer_wakeup(CONFIG_TIMER_WAKEUP_TIME_US));
+
+    // Setup OpenThread and networking
     ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_vfs_eventfd_register(&eventfd_config));
 
-    xTaskCreate(ot_task_worker, "ot_cli_main", 10240, xTaskGetCurrentTaskHandle(), 5, NULL);  
-    xTaskCreate(http_test_task, "http_test_task", 8192, NULL, 5, NULL);
+    esp_openthread_platform_config_t ot_config = {
+        .radio_config = ESP_OPENTHREAD_DEFAULT_RADIO_CONFIG(),
+        .host_config = ESP_OPENTHREAD_DEFAULT_HOST_CONFIG(),
+        .port_config = ESP_OPENTHREAD_DEFAULT_PORT_CONFIG(),
+    };
 
-    // while(1) {
-    //   sleep(2);
-    //   ESP_LOGI(TAG, "Closing vent to 0");
-    //   mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(SERVO_MIN_DEGREE));
-    //   sleep(2);
-    //   ESP_LOGI(TAG, "Opening vent to 90");
-    //   mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(SERVO_MAX_DEGREE));
-    // }
+    // Initialize the OpenThread stack
+    ESP_ERROR_CHECK(esp_openthread_init(&ot_config));
 
-    // sleep(3);
-    // // int servo_rotation = http_rest();
-    // // ESP_LOGI(TAG, "Closing vent to %d", servo_rotation);
+#if CONFIG_OPENTHREAD_LOG_LEVEL_DYNAMIC
+    // The OpenThread log level directly matches ESP log level
+    (void)otLoggingSetLevel(CONFIG_LOG_DEFAULT_LEVEL);
+#endif
 
-    while (1) {
-        // Access the servo rotation value from http_http_client_task.c
-        int servo_rotation_result = get_servo_rotation_result();
+    esp_netif_t *openthread_netif;
+    // Initialize the esp_netif bindings
+    openthread_netif = init_openthread_netif(&ot_config);
+    ESP_ERROR_CHECK(esp_netif_set_default_netif(openthread_netif));
 
-        if (servo_rotation_result == 0) {
-            ESP_LOGI(TAG, "Closing vent to %d", servo_rotation_result);
-            mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(SERVO_MIN_DEGREE));
-        } else if (servo_rotation_result == 90) {
-            ESP_LOGI(TAG, "Opening vent to %d", servo_rotation_result);
-            mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(SERVO_MAX_DEGREE));
-        }
-        
-        sleep(3);
-    }
+#if CONFIG_OPENTHREAD_AUTO_START
+    otOperationalDatasetTlvs dataset;
+    otError error = otDatasetGetActiveTlvs(esp_openthread_get_instance(), &dataset);
+    ESP_ERROR_CHECK(esp_openthread_auto_start((error == OT_ERROR_NONE) ? &dataset : NULL));
+#endif
+
+    xTaskCreate(start_openthread, "ot_main", 10240, xTaskGetCurrentTaskHandle(), 5, NULL);  
+
+    
+    xTaskCreate(main_loop, "main_loop", 8192, NULL, 5, NULL);
+
 }
