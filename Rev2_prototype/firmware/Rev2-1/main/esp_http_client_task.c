@@ -117,7 +117,7 @@ esp_err_t _http_event_handler(esp_http_client_event_t *evt)
             output_len = 0;
             break;
         case HTTP_EVENT_DISCONNECTED:
-            ESP_LOGI(TAG, "HTTP_EVENT_DISCONNECTED");
+            ESP_LOGD(TAG, "HTTP_EVENT_DISCONNECTED");
             int mbedtls_err = 0;
             esp_err_t err = esp_tls_get_and_clear_last_error((esp_tls_error_handle_t)evt->data, &mbedtls_err, NULL);
             if (err != 0) {
@@ -142,10 +142,9 @@ esp_err_t _http_event_handler(esp_http_client_event_t *evt)
 
 int perform_http_transactions(float battery, float temperature)
 {
-    ESP_LOGI(TAG, "Requesting from UI\n");
     // Declare local_response_buffer with size (MAX_HTTP_OUTPUT_BUFFER + 1) to prevent out of bound access when
     // it is used by functions like strlen(). The buffer should only be used upto size MAX_HTTP_OUTPUT_BUFFER
-    int servo_rotation_result = 0;
+    int servo_rotation_result = -1;
     char local_response_buffer[MAX_HTTP_OUTPUT_BUFFER + 1] = {0};
     /**
      * NOTE: All the configuration parameters for http_client must be spefied either in URL or as host and path parameters.
@@ -168,7 +167,7 @@ int perform_http_transactions(float battery, float temperature)
     // GET
     esp_err_t err = esp_http_client_perform(client);
     if (err == ESP_OK) {
-        ESP_LOGI(TAG, "HTTP GET Status = %d, content_length = %"PRId64,
+        ESP_LOGD(TAG, "HTTP GET Status = %d, content_length = %"PRId64,
                 esp_http_client_get_status_code(client),
                 esp_http_client_get_content_length(client));
     } else {
@@ -182,8 +181,8 @@ int perform_http_transactions(float battery, float temperature)
     }
 
 
-    // // POST
-    const char post_data[256];
+    // POST
+    char post_data[256];
     sprintf(post_data, "{\"vent_battery_level\":%.1f,\"current_temperature\":%.1f}", battery, temperature);
     ESP_LOGI(TAG, "%s", post_data);
     
@@ -193,7 +192,7 @@ int perform_http_transactions(float battery, float temperature)
     esp_http_client_set_post_field(client, post_data, strlen(post_data));
     err = esp_http_client_perform(client);
     if (err == ESP_OK) {
-        ESP_LOGI(TAG, "HTTP POST Status = %d, content_length = %"PRId64,
+        ESP_LOGD(TAG, "HTTP POST Status = %d, content_length = %"PRId64,
                 esp_http_client_get_status_code(client),
                 esp_http_client_get_content_length(client));
     } else {

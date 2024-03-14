@@ -15,6 +15,12 @@ servo_rotation = 90
 
 alternate_ui = False
 
+def update_servo_position():
+    global desired_temperature, current_temperature, servo_rotation
+    if (current_temperature < desired_temperature):
+        servo_rotation = 90
+    else:
+        servo_rotation = 0
 
 @app.route('/')
 def home():
@@ -29,6 +35,7 @@ def set_vent_state():
     global vent_battery_level, current_temperature
     vent_battery_level = float(request.get_json().get('vent_battery_level'))
     current_temperature = float(request.get_json().get('current_temperature'))
+    update_servo_position()
 
     return jsonify({
         'success': True,
@@ -40,9 +47,7 @@ def set_vent_state():
 def increment_desired_temperature():
     global desired_temperature, current_temperature, servo_rotation
     desired_temperature += 1
-
-    if (current_temperature < desired_temperature):
-        servo_rotation = 90
+    update_servo_position()
 
     return redirect(url_for('living_room'))
 
@@ -50,9 +55,7 @@ def increment_desired_temperature():
 def decrement_desired_temperature():
     global desired_temperature, current_temperature, servo_rotation
     desired_temperature -= 1
-
-    if (current_temperature >= desired_temperature):
-        servo_rotation = 0
+    update_servo_position()
 
     return redirect(url_for('living_room'))
 

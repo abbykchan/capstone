@@ -1,19 +1,23 @@
 #include "servo.h"
 #include "driver/mcpwm_prelude.h"
 #include "esp_check.h"
+#include "esp_timer.h"
 
 static mcpwm_timer_handle_t servo_timer = NULL;
+static esp_timer_handle_t servo_callback_timer = NULL;
 static mcpwm_oper_handle_t servo_oper = NULL;
 static mcpwm_cmpr_handle_t servo_comparator = NULL;
 static mcpwm_gen_handle_t servo_generator = NULL;
 
 #define TAG "Servo"
 
+void timer_callback(void* arg) {
+    mcpwm_timer_start_stop(servo_timer, MCPWM_TIMER_STOP_FULL);
+}
+
 static inline uint32_t example_angle_to_compare(int angle)
 {
-    return (angle - SERVO_MIN_DEGREE) *
-               (SERVO_MAX_PULSEWIDTH_US - SERVO_MIN_PULSEWIDTH_US) / (SERVO_MAX_DEGREE - SERVO_MIN_DEGREE) +
-           SERVO_MIN_PULSEWIDTH_US;
+    return (angle - SERVO_MIN_DEGREE) * (SERVO_MAX_PULSEWIDTH_US - SERVO_MIN_PULSEWIDTH_US) / (SERVO_MAX_DEGREE - SERVO_MIN_DEGREE) + SERVO_MIN_PULSEWIDTH_US;
 }
 
 esp_err_t init_servo(const mcpwm_timer_config_t servo_timer_config,
@@ -36,7 +40,12 @@ esp_err_t init_servo(const mcpwm_timer_config_t servo_timer_config,
     // go low on compare threshold
     ESP_RETURN_ON_ERROR(mcpwm_generator_set_action_on_compare_event(servo_generator, MCPWM_GEN_COMPARE_EVENT_ACTION(MCPWM_TIMER_DIRECTION_UP, servo_comparator, MCPWM_GEN_ACTION_LOW)), TAG, "Compare action setup failed");
     ESP_RETURN_ON_ERROR(mcpwm_timer_enable(servo_timer), TAG, "Timer enable failed");
-    ESP_RETURN_ON_ERROR(mcpwm_timer_start_stop(servo_timer, MCPWM_TIMER_START_NO_STOP), TAG, "Timer start failed");
+
+    const esp_timer_create_args_t callback_timer_args = {
+        .callback = &timer_callback,
+        .name = "Servo Movement Delay"
+    };
+    ESP_ERROR_CHECK(esp_timer_create(&callback_timer_args, &servo_callback_timer ));
     return ESP_OK;
 }
 
@@ -46,5 +55,13 @@ esp_err_t set_servo_angle(int angle)
     {
         return ESP_FAIL;
     }
-    return mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(angle));
+    ESP_RETURN_ON_ERROR(mcpwm_comparator_set_compare_value(servo_comparator, example_angle_to_compare(angle)), TAG, "Failed to set angle");
+    // ESP_RETURN_ON_ERROR(mcpwm_timer_start_stop(servo_timer, MCPWM_TIMER_START_STOP_FULL ), TAG, "Timer start failed");
+    
+    // This only needs to generate 3 pulses, so there is likely a much more efficient way to make it happen.
+    ESP_RETURN_ON_ERROR(mcpwm_timer_start_stop(servo_timer, MCPWM_TIMER_START_NO_STOP), TAG, "Timer start failed");
+    if (esp_timer_start_once(servo_callback_timer, SERVO_MOVEMENT_DELAY_US) == ESP_ERR_INVALID_STATE) {
+        esp_timer_restart(servo_callback_timer, SERVO_MOVEMENT_DELAY_US);
+    }
+    return ESP_OK;
 }

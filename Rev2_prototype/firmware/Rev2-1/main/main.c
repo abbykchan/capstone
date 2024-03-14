@@ -12,6 +12,7 @@
 
 #include "servo.h"
 #include "MLX90614.h"
+#include "esp_http_client_task.h"
 #include "BMP280.h"
 #include "BMP2/bmp2.h"
 
@@ -40,12 +41,6 @@
 #include "openthread/logging.h"
 #include "openthread/tasklet.h"
 
-#include "esp_http_client_task.h"
-
-#if CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
-#include "esp_ot_cli_extension.h"
-#endif // CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
-
 static volatile uint32_t gpio_num;
 static esp_timer_handle_t debounce_timer = NULL;
 static esp_timer_handle_t pressure_timer = NULL;
@@ -63,7 +58,7 @@ void debounce_timer_callback(void* arg) {
     int level = gpio_get_level(gpio_num);
     ESP_LOGI("BUTTON", "gpio_num: %lu, level: %d", gpio_num, level);
 
-    if (level == 0) {
+    if (level == 1) {
         switch (gpio_num)
         {
         case CONFIG_GPIO_CLOSE_BUTTON:
@@ -142,30 +137,37 @@ static void start_openthread(void* arg) {
 static void main_loop(void *arg) {
 
     uint16_t ir_output = 0;
-    int prev_servo_rotation_result = 0;
     int servo_rotation_result = 0;
-    set_servo_angle(prev_servo_rotation_result);
     
-
     // It might be possible to avoid manually entering sleep states
+    uint32_t meas_time;
+    TickType_t wake_time = xTaskGetTickCount();
     while (true) {
+
         // Perform Measurements 
         MLX_read_word(I2C_NUM_0, (MLX90614_RAM_ACCESS_MASK & MLX90614_RAM_OBJECT1_TEMP), &ir_output);
         ESP_LOGI("MLX90614", "Temp: %f, success: %s", convert_to_degC(ir_output), (MLX_output_error(ir_output) == ESP_OK) ? "true" : "false");
-        //TODO: pressure measurement
+
+        if (!esp_timer_is_active(pressure_timer)) {
+            bmp2_set_power_mode(BMP2_POWERMODE_FORCED, &conf, &bmp280);
+            bmp2_compute_meas_time(&meas_time, &conf, &bmp280);
+
+            esp_timer_start_once(pressure_timer, (uint64_t)meas_time + 1);
+        }
+        // TODO: retreive pressure measurement
+     
 
         servo_rotation_result = perform_http_transactions(50.0, convert_to_degC(ir_output));
 
-
-        if (servo_rotation_result != prev_servo_rotation_result) {
-            ESP_LOGI("ot_esp_cli", "Moving vent to %d", servo_rotation_result);
+        if (servo_rotation_result < 0) {
+            ESP_LOGE("SERVO", "No data from network, not moving servo");
+        } else {
+            ESP_LOGI("SERVO", "Moving vent to %d", servo_rotation_result);
             set_servo_angle(servo_rotation_result);
-            prev_servo_rotation_result = servo_rotation_result;
         }
         
-        vTaskDelay(5 * 1000 / portTICK_PERIOD_MS);
+        xTaskDelayUntil(&wake_time, 5*1000 / portTICK_PERIOD_MS);
     }
-
         
     // measure
     // if time since last communication > 10min
@@ -235,7 +237,7 @@ void app_main(void)
     ESP_ERROR_CHECK(i2c_param_config(I2C_NUM_0, &ir_temp_sensor_config));
     ESP_ERROR_CHECK(i2c_driver_install(I2C_NUM_0, ir_temp_sensor_config.mode, 0, 0, ESP_INTR_FLAG_LEVEL1));
 
-    xTaskCreate(temperature_poll_task, "temperature_poll_task", 2048, NULL, 10, NULL);
+    // xTaskCreate(temperature_poll_task, "temperature_poll_task", 2048, NULL, 10, NULL);
 
     // Setup pressure measurement delay timer callback 
     const esp_timer_create_args_t pressure_timer_args = {
@@ -256,11 +258,11 @@ void app_main(void)
     bmp2_init(&bmp280);
     bmp2_get_config(&conf, &bmp280);
     conf.filter = BMP2_FILTER_OFF;
-    conf.os_mode = BMP2_OS_MODE_ULTRA_HIGH_RESOLUTION;
+    conf.os_mode = BMP2_OS_MODE_ULTRA_LOW_POWER;
     conf.odr = BMP2_ODR_4000_MS;
     bmp2_set_config(&conf, &bmp280);
     
-    xTaskCreate(pressure_poll_task, "pressure_poll_task", 2048, NULL, 10, NULL);
+    // xTaskCreate(pressure_poll_task, "pressure_poll_task", 2048, NULL, 10, NULL);
 
     // Setup Servo
     const mcpwm_timer_config_t servo_timer_config = {

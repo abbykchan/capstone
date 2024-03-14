@@ -13,6 +13,8 @@
 #define SERVO_TIMEBASE_RESOLUTION_HZ 1000000 // 1MHz, 1us per tick
 #define SERVO_TIMEBASE_PERIOD 20000          // 20000 ticks, 20ms
 
+#define SERVO_MOVEMENT_DELAY_US 50000
+
 esp_err_t init_servo(const mcpwm_timer_config_t servo_timer_config,
                      const mcpwm_operator_config_t servo_operator_config,
                      const mcpwm_comparator_config_t servo_comparator_config,
