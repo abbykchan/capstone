@@ -2,16 +2,16 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for
 app = Flask(__name__)
 
 # Desired temperature, updated by user
-desired_temperature = 20
+desired_temperature = 25
 
 # Temperature, updated every minute by vent
-current_temperature = 18
+current_temperature = 24
 
 # Battery level, updated every minute by vent
 vent_battery_level = 97
 
 # Servo rotation, calculated by hub and fetched by vent every 15 minutes
-servo_close_percent = 100
+servo_close_percent = 0
 
 def update_servo_position():
     global desired_temperature, current_temperature, servo_close_percent

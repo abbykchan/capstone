@@ -14,6 +14,50 @@
       href="{{ url_for('static', filename='ventech_logo.png') }}"
     />
     <title>Ventech Thermostat</title>
+    <script>
+      function updateTemperature() {
+        fetch("/get_current_temperature")
+          .then((response) => response.json())
+          .then((data) => {
+            // Update the current temperature on the UI
+            document.querySelector(".current_temperature").innerText =
+              data.current_temperature + "°";
+
+            // Update the desired temperature on the UI
+            var desiredTemperatureElement =
+              document.querySelector(".set_temperature");
+
+            // Get numeric values of current and desired temperatures
+            var currentTemperature = parseFloat(data.current_temperature);
+            var desiredTemperature = parseFloat(data.desired_temperature);
+
+            // Update text and styling based on temperature comparison
+            if (desiredTemperature < currentTemperature) {
+              desiredTemperatureElement.innerText =
+                "Cooling to " + data.desired_temperature + "°";
+              desiredTemperatureElement.classList.remove("set_to");
+              desiredTemperatureElement.classList.remove("heating");
+              desiredTemperatureElement.classList.add("cooling");
+            } else if (desiredTemperature === currentTemperature) {
+              desiredTemperatureElement.innerText =
+                "Set to " + data.desired_temperature + "°";
+              desiredTemperatureElement.classList.remove("heating");
+              desiredTemperatureElement.classList.remove("cooling");
+              desiredTemperatureElement.classList.add("set_to");
+            } else {
+              desiredTemperatureElement.innerText =
+                "Heating to " + data.desired_temperature + "°";
+              desiredTemperatureElement.classList.remove("set_to");
+              desiredTemperatureElement.classList.remove("cooling");
+              desiredTemperatureElement.classList.add("heating");
+            }
+          })
+          .catch((error) =>
+            console.error("Error fetching temperature:", error)
+          );
+      }
+      setInterval(updateTemperature, 500);
+    </script>
   </head>
   <body>
     <div class="container">
@@ -22,15 +66,17 @@
         <div class="room-grid">
           <a href="/living_room" class="room">
             <h2 class="name">Living Room</h2>
-            <p class="temperature">{{ current_temperature }}°</p>
+            <p class="current_temperature temperature">
+              {{ current_temperature }}°
+            </p>
             {% if desired_temperature < current_temperature %}
-            <p class="description cooling">
+            <p class="set_temperature cooling">
               Cooling to {{ desired_temperature }}°
             </p>
             {% elif desired_temperature == current_temperature %}
-            <p class="description">Set to {{ desired_temperature }}°</p>
+            <p class="set_temperature">Set to {{ desired_temperature }}°</p>
             {% else %}
-            <p class="description heating">
+            <p class="set_temperature heating">
               Heating to {{ desired_temperature }}°
             </p>
             {% endif %}
