@@ -37,11 +37,7 @@ def set_vent_state():
 
     redirect(url_for('living_room'))
 
-    return jsonify({
-        'success': True,
-        'vent_battery_level': vent_battery_level,
-        'current_temperature': current_temperature
-    })
+    return redirect(url_for('living_room'))
 
 @app.route('/increment_desired_temperature', methods=['POST'])
 def increment_desired_temperature():
