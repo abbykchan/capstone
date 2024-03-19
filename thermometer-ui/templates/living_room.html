@@ -22,6 +22,37 @@
             // Update the current temperature on the UI
             document.querySelector(".current_temperature").innerText =
               data.current_temperature + "°";
+
+            // Get the desired temperature element
+            var desiredTemperatureElement =
+              document.querySelector(".set_temperature");
+
+            // Get the current temperature and desired temperature values
+            var currentTemperature = parseFloat(data.current_temperature);
+            var desiredTemperature = parseFloat(
+              desiredTemperatureElement.textContent.split(" ")[2].slice(0, -1)
+            );
+
+            // Update the text and styling based on the temperature comparison
+            if (desiredTemperature < currentTemperature) {
+              desiredTemperatureElement.textContent =
+                "Cooling to " + desiredTemperature + "°";
+              desiredTemperatureElement.classList.remove("set_to");
+              desiredTemperatureElement.classList.remove("heating");
+              desiredTemperatureElement.classList.add("cooling");
+            } else if (desiredTemperature === currentTemperature) {
+              desiredTemperatureElement.textContent =
+                "Set to " + desiredTemperature + "°";
+              desiredTemperatureElement.classList.remove("heating");
+              desiredTemperatureElement.classList.remove("cooling");
+              desiredTemperatureElement.classList.add("set_to");
+            } else {
+              desiredTemperatureElement.textContent =
+                "Heating to " + desiredTemperature + "°";
+              desiredTemperatureElement.classList.remove("set_to");
+              desiredTemperatureElement.classList.remove("cooling");
+              desiredTemperatureElement.classList.add("heating");
+            }
           })
           .catch((error) =>
             console.error("Error fetching temperature:", error)
