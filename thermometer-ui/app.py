@@ -8,12 +8,10 @@ desired_temperature = 20
 current_temperature = 18
 
 # Battery level, updated every minute by vent
-vent_battery_level = 75.0
+vent_battery_level = 97
 
 # Servo rotation, calculated by hub and fetched by vent every 15 minutes
 servo_rotation = 90
-
-alternate_ui = False
 
 def update_servo_position():
     global desired_temperature, current_temperature, servo_rotation
@@ -36,6 +34,8 @@ def set_vent_state():
     vent_battery_level = float(request.get_json().get('vent_battery_level'))
     current_temperature = float(request.get_json().get('current_temperature'))
     update_servo_position()
+
+    redirect(url_for('living_room'))
 
     return jsonify({
         'success': True,
@@ -65,4 +65,3 @@ def get_servo_rotation():
 
 if __name__ == '__main__':
     app.run(debug=True, host="::", port=8080)
-    # app.run(debug=True, port=8080)
