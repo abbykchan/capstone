@@ -23,7 +23,6 @@
 #include "esp_event.h"
 #include "esp_sleep.h"
 #include "esp_pm.h"
-#include "esp_log.h"
 #include "esp_netif.h"
 #include "esp_netif_types.h"
 #include "esp_openthread.h"
@@ -40,6 +39,121 @@
 #include "openthread/instance.h"
 #include "openthread/logging.h"
 #include "openthread/tasklet.h"
+#include "esp_task_wdt.h"
+
+#define TAG "ot_esp_power_save"
+#define CONFIG_OPENTHREAD_NETWORK_POLLPERIOD_TIME 30000
+
+static esp_pm_lock_handle_t s_cli_pm_lock = NULL;
+
+#if CONFIG_OPENTHREAD_AUTO_START
+static void create_config_network(otInstance *instance)
+{
+    otLinkModeConfig linkMode = { 0 };
+
+    linkMode.mRxOnWhenIdle = false;
+    linkMode.mDeviceType = false;
+    linkMode.mNetworkData = false;
+
+    if (otLinkSetPollPeriod(instance, CONFIG_OPENTHREAD_NETWORK_POLLPERIOD_TIME) != OT_ERROR_NONE) {
+        ESP_LOGE(TAG, "Failed to set OpenThread pollperiod.");
+        abort();
+    }
+
+    if (otThreadSetLinkMode(instance, linkMode) != OT_ERROR_NONE) {
+        ESP_LOGE(TAG, "Failed to set OpenThread linkmode.");
+        abort();
+    }
+
+    otOperationalDatasetTlvs dataset;
+    otError error = otDatasetGetActiveTlvs(esp_openthread_get_instance(), &dataset);
+    ESP_ERROR_CHECK(esp_openthread_auto_start((error == OT_ERROR_NONE) ? &dataset : NULL));
+}
+#endif // CONFIG_OPENTHREAD_AUTO_START
+
+
+static esp_err_t esp_openthread_sleep_device_init(void)
+{
+    esp_err_t ret = ESP_OK;
+
+    ret = esp_pm_lock_create(ESP_PM_CPU_FREQ_MAX, 0, "otcli", &s_cli_pm_lock);
+    if (ret == ESP_OK) {
+        esp_pm_lock_acquire(s_cli_pm_lock);
+        ESP_LOGI(TAG, "Successfully created CLI pm lock");
+    } else {
+        if (s_cli_pm_lock != NULL) {
+            esp_pm_lock_delete(s_cli_pm_lock);
+            s_cli_pm_lock = NULL;
+        }
+        ESP_LOGI(TAG, " Failed to create CLI pm lock");
+    }
+    return ret;
+}
+
+static void process_state_change(otChangedFlags flags, void* context)
+{
+    otDeviceRole ot_device_role = otThreadGetDeviceRole(esp_openthread_get_instance());
+    if(ot_device_role == OT_DEVICE_ROLE_CHILD) {
+        if (s_cli_pm_lock != NULL) {
+            esp_pm_lock_release(s_cli_pm_lock);
+            esp_pm_lock_delete(s_cli_pm_lock);
+            s_cli_pm_lock = NULL;
+        }
+    }
+}
+
+static esp_netif_t *init_openthread_netif(const esp_openthread_platform_config_t *config)
+{
+    esp_netif_config_t cfg = ESP_NETIF_DEFAULT_OPENTHREAD();
+    esp_netif_t *netif = esp_netif_new(&cfg);
+    assert(netif != NULL);
+    ESP_ERROR_CHECK(esp_netif_attach(netif, esp_openthread_netif_glue_init(config)));
+
+    return netif;
+}
+
+
+static void ot_task_worker(void *aContext)
+{
+    otError ret;
+    esp_openthread_platform_config_t config = {
+        .radio_config = ESP_OPENTHREAD_DEFAULT_RADIO_CONFIG(),
+        .host_config = ESP_OPENTHREAD_DEFAULT_HOST_CONFIG(),
+        .port_config = ESP_OPENTHREAD_DEFAULT_PORT_CONFIG(),
+    };
+
+    // Initialize the OpenThread stack
+    ESP_ERROR_CHECK(esp_openthread_init(&config));
+
+    esp_openthread_lock_acquire(portMAX_DELAY);
+    ret = otSetStateChangedCallback(esp_openthread_get_instance(), process_state_change, esp_openthread_get_instance());
+    esp_openthread_lock_release();
+    if(ret != OT_ERROR_NONE) {
+        ESP_LOGE(TAG, "Failed to set state changed callback");
+    }
+    // The OpenThread log level directly matches ESP log level
+    (void)otLoggingSetLevel(CONFIG_LOG_DEFAULT_LEVEL);
+
+    // Initialize the esp_netif bindings
+    esp_netif_t *openthread_netif;
+    openthread_netif = init_openthread_netif(&config);
+    esp_netif_set_default_netif(openthread_netif);
+    create_config_network(esp_openthread_get_instance());
+
+    // Run the main loop
+    esp_openthread_launch_mainloop();
+
+    // Clean up
+    esp_openthread_netif_glue_deinit();
+    esp_netif_destroy(openthread_netif);
+
+    esp_vfs_eventfd_unregister();
+    vTaskDelete(NULL);
+}
+
+
+
+
 
 static volatile uint32_t gpio_num;
 static esp_timer_handle_t debounce_timer = NULL;
@@ -54,7 +168,7 @@ static void IRAM_ATTR gpio_isr_handler(void* arg)
 }
 
 void debounce_timer_callback(void* arg) {
-    // button_args* args = (button_args*) arg;
+    
     int level = gpio_get_level(gpio_num);
     ESP_LOGI("BUTTON", "gpio_num: %lu, level: %d", gpio_num, level);
 
@@ -62,10 +176,12 @@ void debounce_timer_callback(void* arg) {
         switch (gpio_num)
         {
         case CONFIG_GPIO_CLOSE_BUTTON:
-            set_servo_angle(SERVO_MIN_DEGREE);
+            ESP_LOGI("SERVO", "Servo max percent");
+            set_servo(SERVO_MIN_PERCENT);
             break;
         case CONFIG_GPIO_OPEN_BUTTON:
-            set_servo_angle(SERVO_MAX_DEGREE);
+            ESP_LOGI("SERVO", "Servo min percent");
+            set_servo(SERVO_MAX_PERCENT);
             break;
         default:
             break;
@@ -77,32 +193,32 @@ void debounce_timer_callback(void* arg) {
 struct bmp2_dev bmp280;
 struct bmp2_config conf;
 
-static void temperature_poll_task(void* arg) {
-    uint16_t output = 0;
-    while (true) {
-        MLX_read_word(I2C_NUM_0, (MLX90614_RAM_ACCESS_MASK & MLX90614_RAM_OBJECT1_TEMP), &output);
-        ESP_LOGI("MLX90614", "Temp: %f, success: %s", convert_to_degC(output), (MLX_output_error(output) == ESP_OK) ? "true" : "false");
+// static void temperature_poll_task(void* arg) {
+//     uint16_t output = 0;
+//     while (true) {
+//         MLX_read_word(I2C_NUM_0, (MLX90614_RAM_ACCESS_MASK & MLX90614_RAM_OBJECT1_TEMP), &output);
+//         ESP_LOGI("MLX90614", "Temp: %f, success: %s", convert_to_degC(output), (MLX_output_error(output) == ESP_OK) ? "true" : "false");
 
-        // ESP_LOGI("PRES", "Temp: %f, Pressure: %f", readTemperature(I2C_NUM_0), readPressure(I2C_NUM_0));
-        vTaskDelay(5000 / portTICK_PERIOD_MS);
-    }
-}
+//         // ESP_LOGI("PRES", "Temp: %f, Pressure: %f", readTemperature(I2C_NUM_0), readPressure(I2C_NUM_0));
+//         vTaskDelay(5000 / portTICK_PERIOD_MS);
+//     }
+// }
 
-static void pressure_poll_task(void* arg) {
+// static void pressure_poll_task(void* arg) {
     
-    uint32_t meas_time;
+//     uint32_t meas_time;
 
-    while (true) {
-        if (!esp_timer_is_active(pressure_timer)) {
-            bmp2_set_power_mode(BMP2_POWERMODE_FORCED, &conf, &bmp280);
-            bmp2_compute_meas_time(&meas_time, &conf, &bmp280);
+//     while (true) {
+//         if (!esp_timer_is_active(pressure_timer)) {
+//             bmp2_set_power_mode(BMP2_POWERMODE_FORCED, &conf, &bmp280);
+//             bmp2_compute_meas_time(&meas_time, &conf, &bmp280);
 
-            esp_timer_start_once(pressure_timer, (uint64_t)meas_time + 1);
+//             esp_timer_start_once(pressure_timer, (uint64_t)meas_time + 1);
             
-            vTaskDelay(5000 / portTICK_PERIOD_MS);
-        }
-    }
-}
+//             vTaskDelay(5000 / portTICK_PERIOD_MS);
+//         }
+//     }
+// }
 
 void pressure_timer_callback(void* arg) {
     struct bmp2_status status;
@@ -121,22 +237,9 @@ void pressure_timer_callback(void* arg) {
 
 }
 
-static esp_netif_t *init_openthread_netif(const esp_openthread_platform_config_t *config)
-{
-    esp_netif_config_t cfg = ESP_NETIF_DEFAULT_OPENTHREAD();
-    esp_netif_t *netif = esp_netif_new(&cfg);
-    assert(netif != NULL);
-    ESP_ERROR_CHECK(esp_netif_attach(netif, esp_openthread_netif_glue_init(config)));
-
-    return netif;
-}
-static void start_openthread(void* arg) {
-    esp_openthread_launch_mainloop();
-}
-
 static void main_loop(void *arg) {
 
-    uint16_t ir_output = 0;
+    uint16_t ir_output = 15000U;
     int servo_rotation_result = 0;
     
     // It might be possible to avoid manually entering sleep states
@@ -163,34 +266,10 @@ static void main_loop(void *arg) {
             ESP_LOGE("SERVO", "No data from network, not moving servo");
         } else {
             ESP_LOGI("SERVO", "Moving vent to %d", servo_rotation_result);
-            set_servo_angle(servo_rotation_result);
+            set_servo(servo_rotation_result);
         }
-        
-        xTaskDelayUntil(&wake_time, 5*1000 / portTICK_PERIOD_MS);
+        xTaskDelayUntil(&wake_time, 1000 / portTICK_PERIOD_MS);
     }
-        
-    // measure
-    // if time since last communication > 10min
-    //     active (enable modem)
-    //     communicate data
-    //     modem sleep (disable modem)
-    //     move servo
-    // light_sleep 1 min
-    // delay 1 min
-    
-    
-    //     esp_light_sleep_start();
-    //     switch (esp_sleep_get_wakeup_cause()) {
-    //         case ESP_SLEEP_WAKEUP_TIMER:
-    //             ESP_LOGI("Wakeup", "timer_event");
-    //             break;
-    //         case ESP_SLEEP_WAKEUP_GPIO:
-    //             ESP_LOGI("Wakeup", "gpio_event");
-    //             break;
-    //         default:
-    //             ESP_LOGI("Wakeup", "default");
-    //             break;
-
 }
 
 void app_main(void)
@@ -206,7 +285,7 @@ void app_main(void)
     ESP_ERROR_CHECK(gpio_install_isr_service(ESP_INTR_FLAG_LEVEL1));
 
     const gpio_config_t open_push_button_config = {
-        .intr_type = GPIO_INTR_ANYEDGE,
+        .intr_type = GPIO_INTR_NEGEDGE,
         .pull_down_en = GPIO_PULLDOWN_DISABLE,
         .pull_up_en = GPIO_PULLUP_ENABLE,
         .mode = GPIO_MODE_INPUT,
@@ -216,7 +295,7 @@ void app_main(void)
     ESP_ERROR_CHECK(gpio_isr_handler_add(CONFIG_GPIO_OPEN_BUTTON, gpio_isr_handler, (void*) CONFIG_GPIO_OPEN_BUTTON));
 
     const gpio_config_t close_push_button_config = {
-        .intr_type = GPIO_INTR_ANYEDGE,
+        .intr_type = GPIO_INTR_NEGEDGE,
         .pull_down_en = GPIO_PULLDOWN_DISABLE,
         .pull_up_en = GPIO_PULLUP_ENABLE,
         .mode = GPIO_MODE_INPUT,
@@ -289,52 +368,39 @@ void app_main(void)
     };
 
     // Setup power management
+    ESP_ERROR_CHECK(gpio_wakeup_enable(CONFIG_GPIO_CLOSE_BUTTON, GPIO_INTR_LOW_LEVEL));
+    ESP_ERROR_CHECK(gpio_wakeup_enable(CONFIG_GPIO_OPEN_BUTTON, GPIO_INTR_LOW_LEVEL));
+    ESP_ERROR_CHECK(esp_sleep_enable_gpio_wakeup());
+    
     int cur_cpu_freq_mhz = CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ;
     esp_pm_config_t pm_config = {
         .max_freq_mhz = cur_cpu_freq_mhz,
         .min_freq_mhz = cur_cpu_freq_mhz,
         .light_sleep_enable = true
     };
-    ESP_ERROR_CHECK(esp_pm_configure(&pm_config));
-    ESP_ERROR_CHECK(gpio_wakeup_enable(CONFIG_GPIO_CLOSE_BUTTON, GPIO_INTR_LOW_LEVEL));
-    ESP_ERROR_CHECK(gpio_wakeup_enable(CONFIG_GPIO_OPEN_BUTTON, GPIO_INTR_LOW_LEVEL));
-    ESP_ERROR_CHECK(esp_sleep_enable_gpio_wakeup());
-    ESP_ERROR_CHECK(esp_sleep_enable_timer_wakeup(CONFIG_TIMER_WAKEUP_TIME_US));
+    // ESP_ERROR_CHECK(esp_pm_configure(&pm_config));
 
     // Setup OpenThread and networking
     ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
     ESP_ERROR_CHECK(esp_netif_init());
-    ESP_ERROR_CHECK(esp_vfs_eventfd_register(&eventfd_config));
+    ESP_ERROR_CHECK(esp_vfs_eventfd_register(&eventfd_config));    
+    ESP_ERROR_CHECK(esp_openthread_sleep_device_init());
 
-    esp_openthread_platform_config_t ot_config = {
-        .radio_config = ESP_OPENTHREAD_DEFAULT_RADIO_CONFIG(),
-        .host_config = ESP_OPENTHREAD_DEFAULT_HOST_CONFIG(),
-        .port_config = ESP_OPENTHREAD_DEFAULT_PORT_CONFIG(),
-    };
-
-    // Initialize the OpenThread stack
-    ESP_ERROR_CHECK(esp_openthread_init(&ot_config));
-
-#if CONFIG_OPENTHREAD_LOG_LEVEL_DYNAMIC
-    // The OpenThread log level directly matches ESP log level
-    (void)otLoggingSetLevel(CONFIG_LOG_DEFAULT_LEVEL);
-#endif
-
-    esp_netif_t *openthread_netif;
-    // Initialize the esp_netif bindings
-    openthread_netif = init_openthread_netif(&ot_config);
-    ESP_ERROR_CHECK(esp_netif_set_default_netif(openthread_netif));
-
-#if CONFIG_OPENTHREAD_AUTO_START
-    otOperationalDatasetTlvs dataset;
-    otError error = otDatasetGetActiveTlvs(esp_openthread_get_instance(), &dataset);
-    ESP_ERROR_CHECK(esp_openthread_auto_start((error == OT_ERROR_NONE) ? &dataset : NULL));
-#endif
-
-    xTaskCreate(start_openthread, "ot_main", 10240, xTaskGetCurrentTaskHandle(), 5, NULL);  
-
+    xTaskCreate(ot_task_worker, "ot_power_save_main", 4096, NULL, 5, NULL);  
     
     xTaskCreate(main_loop, "main_loop", 8192, NULL, 5, NULL);
-
 }
+
+// potentially enable:
+//      CONFIG_ESP_SLEEP_POWER_DOWN_FLASH
+//      CONFIG_PM_POWER_DOWN_PERIPHERAL_IN_LIGHT_SLEEP - Need to use ESP_PM_NO_LIGHT_SLEEP lock when the MCPWM or I2S
+//      CONFIG_FREERTOS_HZ=1000 - Can be increased, which might improve performance?
+//      Interrupt and task watchdogs
+//      ECJPAKE options?
+// potentially disable: 
+//      CONFIG_LWIP_ND6 and other LWIP options?
+//      DHCPS?
+
+// CONFIG_ESP_SLEEP_POWER_DOWN_FLASH only works if the only wakeup source is timer. If we are okay with this, we can use
+//      this config option to reduce power usage. Otherwise, we shouldn't do this (its like 5uA).

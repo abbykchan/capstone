@@ -153,23 +153,50 @@ int perform_http_transactions(float battery, float temperature)
      *
      * If URL as well as host and path parameters are specified, values of host and path will be considered.
      */
-    esp_http_client_config_t config = {
+    
+    // POST
+    esp_http_client_config_t post_config = {
         .host = CONFIG_EXAMPLE_HTTP_ENDPOINT,
         .port = 8080,
-        .path = "/get_servo_rotation",
+        .path = "/set_vent_state",
+        .query = "esp",
+        .event_handler = _http_event_handler,
+        .user_data = local_response_buffer,        // Pass address of local buffer to get response
+        .disable_auto_redirect = true,
+        .method = HTTP_METHOD_POST,
+    };
+    esp_http_client_handle_t post_client = esp_http_client_init(&post_config);
+    char post_data[256];
+    sprintf(post_data, "{\"vent_battery_level\":%.1f,\"current_temperature\":%.1f}", battery, temperature);
+    esp_http_client_set_header(post_client, "Content-Type", "application/json");
+    esp_http_client_set_post_field(post_client, post_data, strlen(post_data));
+    esp_err_t err = esp_http_client_perform(post_client);
+    if (err == ESP_OK) {
+        ESP_LOGD(TAG, "HTTP POST Status = %d, content_length = %"PRId64,
+                esp_http_client_get_status_code(post_client),
+                esp_http_client_get_content_length(post_client));
+    } else {
+        ESP_LOGE(TAG, "HTTP POST request failed: %s", esp_err_to_name(err));
+    }
+
+
+    // GET
+    esp_http_client_config_t get_config = {
+        .host = CONFIG_EXAMPLE_HTTP_ENDPOINT,
+        .port = 8080,
+        .path = "/get_servo_close_percent",
         .query = "esp",
         .event_handler = _http_event_handler,
         .user_data = local_response_buffer,        // Pass address of local buffer to get response
         .disable_auto_redirect = true,
     };
-    esp_http_client_handle_t client = esp_http_client_init(&config);
-
-    // GET
-    esp_err_t err = esp_http_client_perform(client);
+    esp_http_client_handle_t get_client = esp_http_client_init(&get_config);
+    
+    err = esp_http_client_perform(get_client);
     if (err == ESP_OK) {
         ESP_LOGD(TAG, "HTTP GET Status = %d, content_length = %"PRId64,
-                esp_http_client_get_status_code(client),
-                esp_http_client_get_content_length(client));
+                esp_http_client_get_status_code(get_client),
+                esp_http_client_get_content_length(get_client));
     } else {
         ESP_LOGE(TAG, "HTTP GET request failed: %s", esp_err_to_name(err));
     }
@@ -181,25 +208,8 @@ int perform_http_transactions(float battery, float temperature)
     }
 
 
-    // POST
-    char post_data[256];
-    sprintf(post_data, "{\"vent_battery_level\":%.1f,\"current_temperature\":%.1f}", battery, temperature);
-    ESP_LOGI(TAG, "%s", post_data);
-    
-    esp_http_client_set_url(client, "http://"CONFIG_EXAMPLE_HTTP_ENDPOINT":8080/set_vent_state");
-    esp_http_client_set_method(client, HTTP_METHOD_POST);
-    esp_http_client_set_header(client, "Content-Type", "application/json");
-    esp_http_client_set_post_field(client, post_data, strlen(post_data));
-    err = esp_http_client_perform(client);
-    if (err == ESP_OK) {
-        ESP_LOGD(TAG, "HTTP POST Status = %d, content_length = %"PRId64,
-                esp_http_client_get_status_code(client),
-                esp_http_client_get_content_length(client));
-    } else {
-        ESP_LOGE(TAG, "HTTP POST request failed: %s", esp_err_to_name(err));
-    }
-
-    esp_http_client_cleanup(client);
+    esp_http_client_cleanup(post_client);
+    esp_http_client_cleanup(get_client);
 
     return servo_rotation_result;
 }
