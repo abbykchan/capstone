@@ -63,7 +63,7 @@ def get_servo_open_percent():
 
 @app.route('/get_current_temperature', methods=['GET'])
 def get_current_temperature():
-    return jsonify({'current_temperature': current_temperature})
+    return jsonify({'current_temperature': current_temperature, 'desired_temperature': desired_temperature})
 
 if __name__ == '__main__':
     app.run(debug=True, host="::", port=8080)
