@@ -35,9 +35,11 @@ def set_vent_state():
     current_temperature = float(request.get_json().get('current_temperature'))
     update_servo_position()
 
-    redirect(url_for('living_room'))
-
-    return redirect(url_for('living_room'))
+    return jsonify({
+        'success': True,
+        'vent_battery_level': vent_battery_level,
+        'current_temperature': current_temperature
+    })
 
 @app.route('/increment_desired_temperature', methods=['POST'])
 def increment_desired_temperature():
@@ -58,6 +60,10 @@ def decrement_desired_temperature():
 @app.route('/get_servo_rotation', methods=['GET'])
 def get_servo_rotation():
     return jsonify({'servo_rotation': servo_rotation})
+
+@app.route('/get_current_temperature', methods=['GET'])
+def get_current_temperature():
+    return jsonify({'current_temperature': current_temperature})
 
 if __name__ == '__main__':
     app.run(debug=True, host="::", port=8080)

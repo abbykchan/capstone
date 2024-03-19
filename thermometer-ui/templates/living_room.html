@@ -14,6 +14,22 @@
       href="{{ url_for('static', filename='ventech_logo.png') }}"
     />
     <title>Ventech Thermostat | Living Room</title>
+    <script>
+      function updateTemperature() {
+        fetch("/get_current_temperature")
+          .then((response) => response.json())
+          .then((data) => {
+            // Update the current temperature on the UI
+            document.querySelector(".current_temperature").innerText =
+              data.current_temperature + "°";
+          })
+          .catch((error) =>
+            console.error("Error fetching temperature:", error)
+          );
+      }
+      // Update temperature every 1 minute
+      setInterval(updateTemperature, 1000);
+    </script>
   </head>
   <body>
     <div class="container">
