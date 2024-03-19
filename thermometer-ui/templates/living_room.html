@@ -22,13 +22,41 @@
             // Update the current temperature on the UI
             document.querySelector(".current_temperature").innerText =
               data.current_temperature + "°";
-            document.querySelector(".set_temperature").innerText =
-              data.desired_temperature + "°";
+
+            // Update the desired temperature on the UI
+            var desiredTemperatureElement =
+              document.querySelector(".set_temperature");
+
+            // Get numeric values of current and desired temperatures
+            var currentTemperature = parseFloat(data.current_temperature);
+            var desiredTemperature = parseFloat(data.desired_temperature);
+
+            // Update text and styling based on temperature comparison
+            if (desiredTemperature < currentTemperature) {
+              desiredTemperatureElement.innerText =
+                "Cooling to " + data.desired_temperature + "°";
+              desiredTemperatureElement.classList.remove("set_to");
+              desiredTemperatureElement.classList.remove("heating");
+              desiredTemperatureElement.classList.add("cooling");
+            } else if (desiredTemperature === currentTemperature) {
+              desiredTemperatureElement.innerText =
+                "Set to " + data.desired_temperature + "°";
+              desiredTemperatureElement.classList.remove("heating");
+              desiredTemperatureElement.classList.remove("cooling");
+              desiredTemperatureElement.classList.add("set_to");
+            } else {
+              desiredTemperatureElement.innerText =
+                "Heating to " + data.desired_temperature + "°";
+              desiredTemperatureElement.classList.remove("set_to");
+              desiredTemperatureElement.classList.remove("cooling");
+              desiredTemperatureElement.classList.add("heating");
+            }
           })
           .catch((error) =>
             console.error("Error fetching temperature:", error)
           );
       }
+
       // Update temperature every second
       setInterval(updateTemperature, 100);
     </script>
