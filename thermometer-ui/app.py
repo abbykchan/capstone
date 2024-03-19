@@ -32,7 +32,7 @@ def living_room():
 def set_vent_state():
     global vent_battery_level, current_temperature
     vent_battery_level = float(request.get_json().get('vent_battery_level'))
-    current_temperature = float(request.get_json().get('current_temperature'))
+    current_temperature = int(request.get_json().get('current_temperature'))
     update_servo_position()
 
     redirect(url_for('living_room'))
