@@ -1,5 +1,14 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
+import datetime
+import csv
+
 app = Flask(__name__)
+
+# Initialize CSV file with headers if it doesn't exist
+LOG_FILE = 'vent_log.csv'
+with open(LOG_FILE, 'a', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(['Timestamp', 'Current Temperature', 'Desired Temperature', 'Servo Close Percent'])
 
 # Desired temperature, updated by user
 desired_temperature = 25
@@ -30,10 +39,23 @@ def living_room():
 
 @app.route('/set_vent_state', methods=['POST'])
 def set_vent_state():
-    global vent_battery_level, current_temperature
+    global vent_battery_level, current_temperature, desired_temperature, servo_close_percent
+
+    # Update variables
     vent_battery_level = int(request.get_json().get('vent_battery_level'))
     current_temperature = float(request.get_json().get('current_temperature'))
-    update_servo_position()
+    
+    # Log data to CSV
+    timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    data = [timestamp, current_temperature, desired_temperature, servo_close_percent]
+
+    with open(LOG_FILE, 'a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(data)
+
+    # Recalculate servo position
+    ### COMMENT THIS OUT WHEN INSTALLED, REMOVED TEMPORARILY SO AARON IS NOT ANNOYED!!!
+    # update_servo_position()
 
     return jsonify({
         'success': True,
