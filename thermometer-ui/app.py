@@ -1,14 +1,18 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import datetime
 import csv
+import os
 
 app = Flask(__name__)
 
-# Initialize CSV file with headers if it doesn't exist
+# Initialize CSV file with headers if it doesn't exist or is empty
 LOG_FILE = 'vent_log.csv'
-with open(LOG_FILE, 'a', newline='') as file:
-    writer = csv.writer(file)
-    writer.writerow(['Timestamp', 'Current Temperature', 'Desired Temperature', 'Servo Close Percent'])
+
+# Check if the file is empty or doesn't exist
+if not os.path.exists(LOG_FILE) or os.stat(LOG_FILE).st_size == 0:
+    with open(LOG_FILE, 'a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Timestamp', 'Current Temperature', 'Desired Temperature', 'Servo Close Percent'])
 
 # Desired temperature, updated by user
 desired_temperature = 25
@@ -44,11 +48,11 @@ def set_vent_state():
     # Update variables
     vent_battery_level = int(request.get_json().get('vent_battery_level'))
     current_temperature = float(request.get_json().get('current_temperature'))
-    
-    # Log data to CSV
+
+    # Log to CSV
+    print("logging state")
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     data = [timestamp, current_temperature, desired_temperature, servo_close_percent]
-
     with open(LOG_FILE, 'a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(data)
