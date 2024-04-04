@@ -58,8 +58,7 @@ def set_vent_state():
         writer.writerow(data)
 
     # Recalculate servo position
-    ### COMMENT THIS OUT WHEN INSTALLED, REMOVED TEMPORARILY SO AARON IS NOT ANNOYED!!!
-    # update_servo_position()
+    update_servo_position()
 
     return jsonify({
         'success': True,
