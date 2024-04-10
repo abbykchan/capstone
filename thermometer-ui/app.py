@@ -28,10 +28,17 @@ servo_close_percent = 0
 
 def update_servo_position():
     global desired_temperature, current_temperature, servo_close_percent
-    if (current_temperature < desired_temperature):
-        servo_close_percent = 0
-    else:
-        servo_close_percent = 100
+    temp_difference = current_temperature - desired_temperature
+
+    temp_range = 1  # Temperature range from -0.5 to 0.5
+    close_percent_range = 100  # Close percent range from 0 to 100
+
+    # Interpolate the close percent between the temperature range
+    percent_per_unit_temp = close_percent_range / temp_range
+    servo_close_percent = int((temp_difference + 0.5) * percent_per_unit_temp)
+
+    # Ensure servo_close_percent is within the range [0, 100]
+    servo_close_percent = max(0, min(100, servo_close_percent))
 
 @app.route('/')
 def home():
