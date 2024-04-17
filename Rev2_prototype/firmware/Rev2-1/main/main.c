@@ -9,6 +9,7 @@
 #include "esp_log.h"
 #include "driver/gpio.h"
 #include "driver/i2c.h"
+#include "driver/ledc.h"
 
 #include "servo.h"
 #include "MLX90614.h"
@@ -177,11 +178,11 @@ void debounce_timer_callback(void* arg) {
         {
         case CONFIG_GPIO_CLOSE_BUTTON:
             ESP_LOGI("SERVO", "Servo max percent");
-            set_servo(SERVO_MIN_PERCENT);
+            set_servo(0);
             break;
         case CONFIG_GPIO_OPEN_BUTTON:
             ESP_LOGI("SERVO", "Servo min percent");
-            set_servo(SERVO_MAX_PERCENT);
+            set_servo(100);
             break;
         default:
             break;
@@ -239,24 +240,40 @@ void pressure_timer_callback(void* arg) {
 
 static void main_loop(void *arg) {
 
-    uint16_t ir_output = 15000U;
+
+    const i2c_config_t ir_temp_sensor_config = {
+        .mode = I2C_MODE_MASTER,
+        .sda_io_num = 6,
+        .scl_io_num = 7,
+        .sda_pullup_en = GPIO_PULLUP_ENABLE,
+        .scl_pullup_en = GPIO_PULLUP_ENABLE,
+        .master.clk_speed = 100000,
+    };
+    ESP_ERROR_CHECK(i2c_param_config(I2C_NUM_0, &ir_temp_sensor_config));
+
+    uint16_t ir_output = 0;
     int servo_rotation_result = 0;
     
     // It might be possible to avoid manually entering sleep states
     uint32_t meas_time;
     TickType_t wake_time = xTaskGetTickCount();
+    esp_pm_lock_handle_t sleep_lock;
+    esp_pm_lock_create(ESP_PM_NO_LIGHT_SLEEP, 0, "servo_sleep", &sleep_lock);
     while (true) {
 
         // Perform Measurements 
+        esp_pm_lock_acquire(sleep_lock);
+        ESP_ERROR_CHECK(i2c_param_config(I2C_NUM_0, &ir_temp_sensor_config));
         MLX_read_word(I2C_NUM_0, (MLX90614_RAM_ACCESS_MASK & MLX90614_RAM_OBJECT1_TEMP), &ir_output);
         ESP_LOGI("MLX90614", "Temp: %f, success: %s", convert_to_degC(ir_output), (MLX_output_error(ir_output) == ESP_OK) ? "true" : "false");
+        esp_pm_lock_release(sleep_lock);
 
-        if (!esp_timer_is_active(pressure_timer)) {
-            bmp2_set_power_mode(BMP2_POWERMODE_FORCED, &conf, &bmp280);
-            bmp2_compute_meas_time(&meas_time, &conf, &bmp280);
+        // if (!esp_timer_is_active(pressure_timer)) {
+        //     bmp2_set_power_mode(BMP2_POWERMODE_FORCED, &conf, &bmp280);
+        //     bmp2_compute_meas_time(&meas_time, &conf, &bmp280);
 
-            esp_timer_start_once(pressure_timer, (uint64_t)meas_time + 1);
-        }
+        //     esp_timer_start_once(pressure_timer, (uint64_t)meas_time + 1);
+        // }
         // TODO: retreive pressure measurement
      
 
@@ -268,12 +285,13 @@ static void main_loop(void *arg) {
             ESP_LOGI("SERVO", "Moving vent to %d", servo_rotation_result);
             set_servo(servo_rotation_result);
         }
-        xTaskDelayUntil(&wake_time, 1000 / portTICK_PERIOD_MS);
+        xTaskDelayUntil(&wake_time, 60000 / portTICK_PERIOD_MS);
     }
 }
 
 void app_main(void)
 {
+    ESP_LOGI("MAIN", "STARTING APPLICATION");
     // Setup debounce timer for pushbuttons
     const esp_timer_create_args_t debounce_timer_args = {
         .callback = &debounce_timer_callback,
@@ -303,7 +321,7 @@ void app_main(void)
     };
     ESP_ERROR_CHECK(gpio_config(&close_push_button_config));
     ESP_ERROR_CHECK(gpio_isr_handler_add(CONFIG_GPIO_CLOSE_BUTTON, gpio_isr_handler, (void*) CONFIG_GPIO_CLOSE_BUTTON));
-    
+
     // Setup I2C for Temp & Pressure sensors
     const i2c_config_t ir_temp_sensor_config = {
         .mode = I2C_MODE_MASTER,
@@ -344,42 +362,31 @@ void app_main(void)
     // xTaskCreate(pressure_poll_task, "pressure_poll_task", 2048, NULL, 10, NULL);
 
     // Setup Servo
-    const mcpwm_timer_config_t servo_timer_config = {
-        .group_id = 0,
-        .clk_src = MCPWM_TIMER_CLK_SRC_DEFAULT,
-        .resolution_hz = SERVO_TIMEBASE_RESOLUTION_HZ,
-        .period_ticks = SERVO_TIMEBASE_PERIOD,
-        .count_mode = MCPWM_TIMER_COUNT_MODE_UP,
+    const gpio_config_t servo_disconnect_config = {
+        .intr_type = GPIO_INTR_DISABLE,
+        .pull_down_en = GPIO_PULLDOWN_ENABLE,
+        .pull_up_en = GPIO_PULLUP_DISABLE,
+        .mode = GPIO_MODE_OUTPUT,
+        .pin_bit_mask = 1ULL<<CONFIG_GPIO_SERVO_DISCONNECT
     };
-    const mcpwm_operator_config_t servo_operator_config = {
-        .group_id = 0, // operator must be in the same group to the timer
-    };
-    const mcpwm_comparator_config_t servo_comparator_config = {
-        .flags.update_cmp_on_tez = true,
-    };
-    mcpwm_generator_config_t servo_generator_config = {
-        .gen_gpio_num = SERVO_PULSE_GPIO,
-    };
-    ESP_ERROR_CHECK(init_servo(servo_timer_config, servo_operator_config, servo_comparator_config, servo_generator_config));
-
-    // Setup Thread network & HTTP requests
-    esp_vfs_eventfd_config_t eventfd_config = {
-        .max_fds = 3,
-    };
+    init_servo(servo_disconnect_config);
 
     // Setup power management
     ESP_ERROR_CHECK(gpio_wakeup_enable(CONFIG_GPIO_CLOSE_BUTTON, GPIO_INTR_LOW_LEVEL));
     ESP_ERROR_CHECK(gpio_wakeup_enable(CONFIG_GPIO_OPEN_BUTTON, GPIO_INTR_LOW_LEVEL));
     ESP_ERROR_CHECK(esp_sleep_enable_gpio_wakeup());
-    
-    int cur_cpu_freq_mhz = CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ;
     esp_pm_config_t pm_config = {
-        .max_freq_mhz = cur_cpu_freq_mhz,
-        .min_freq_mhz = cur_cpu_freq_mhz,
+        .max_freq_mhz = CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ,
+        .min_freq_mhz = CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ,
         .light_sleep_enable = true
     };
-    // ESP_ERROR_CHECK(esp_pm_configure(&pm_config));
+    ESP_ERROR_CHECK(esp_pm_configure(&pm_config));
+    
 
+    // Setup Thread network & HTTP requests
+    esp_vfs_eventfd_config_t eventfd_config = {
+        .max_fds = 3,
+    };
     // Setup OpenThread and networking
     ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
